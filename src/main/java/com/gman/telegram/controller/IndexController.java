@@ -1,6 +1,6 @@
 package com.gman.telegram.controller;
 
-import com.gman.telegram.bot.Bot;
+import com.gman.telegram.bot.CongratsBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class IndexController {
 
-    @Autowired
-    Bot bot;
-
+//    @Autowired
+//    CongratsBot bot;
+//
     @RequestMapping("index")
     public String index() {
-        return bot.getBotUsername() + " : " + bot.getBotToken();
+        return "index";
     }
 }
