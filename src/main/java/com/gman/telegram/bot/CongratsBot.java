@@ -1,21 +1,23 @@
 package com.gman.telegram.bot;
 
-import com.gman.telegram.TextTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gman.telegram.keyboard.KBBuilder;
 import lombok.extern.slf4j.Slf4j;
+import model.Pictures;
+import model.Question;
+import model.TextTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,10 +34,28 @@ public class CongratsBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String TOKEN;
 
+    @Value("${chat.id.anton}")
+    private String CHAT_ID;
+
+    @Autowired
+    private ObjectMapper mapper;
+
+    @Autowired
+    private QuestionBuilder questionBuilder;
+
+    @Autowired
+    private KBBuilder keyboardBuilder;
+
+    private List<Question> questions = new ArrayList<>();
+
 
     @PostConstruct
-    public void init() {
+    public void init() throws Exception {
+        questions = questionBuilder.createAll();
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
+        SendPhoto photoMsg = photoMessage(Pictures.PUSHEEN_CAKE, keyboardBuilder.getStartKB());
+        sendPhoto(photoMsg);
+        execute(textMessage(TextTemplate.UNKNOWN_MSG));
     }
 
     @Override
@@ -49,87 +69,54 @@ public class CongratsBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update) {
-        if (isUpdateMsg(update)) {
-            log.info("User sent text message: {}", update);
-            process(update);
-        } else if (isUpdateCallback(update)) {
-            log.info("User sent callback: {}", update);
-            log.info(update.getCallbackQuery().getData());
-
-        }
-    }
-
-
-    public void process(Update update) {
-        String text = update.getMessage().getText();
-        SendMessage answer = new SendMessage();
-        answer.setParseMode("HTML");
-        answer.setChatId(update.getMessage().getChatId());
-        InlineKeyboardMarkup markup = keyboard(update);
-        answer.setReplyMarkup(markup);
-
-        answer.setText(
-                "/start".equalsIgnoreCase(text)
-                        ? TextTemplate.HELLO_MSG
-                        : TextTemplate.UNKNOWN_MSG
-        );
-
-        answer.setReplyMarkup(replyMarkup(update));
-
+    public void onUpdateReceived(Update update)   {
         try {
-            execute(answer);
-        } catch (TelegramApiException e) {
+            process(update);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public void process(Update update) throws Exception {
+        Message msg = update.getMessage();
+        String text = msg.getText();
 
-
-
-    private InlineKeyboardMarkup keyboard(Update update) {
-        final InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        keyboard.add(Arrays.asList(buttonMain()));
-        markup.setKeyboard(keyboard);
-        return markup;
+        if ("/start".equalsIgnoreCase(text)) {
+            sendPhoto(photoMessage(Pictures.PUSHEEN_CAKE, keyboardBuilder.getStartKB()));
+        }
     }
 
-    private ReplyKeyboardMarkup replyMarkup(Update update) {
-        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
-
-        List<KeyboardRow> rows = new ArrayList<>(4);
-        KeyboardRow row1 = new KeyboardRow();
-        KeyboardRow row2 = new KeyboardRow();
-        KeyboardRow row3 = new KeyboardRow();
-        KeyboardRow row4 = new KeyboardRow();
-        row1.add("var1");
-        row2.add("var2");
-        row3.add("var3");
-        row4.add("var4");
-
-        rows.addAll(Arrays.asList(row1, row2, row3, row4));
-
-        markup.setKeyboard(rows);
-        return markup;
+    private SendMessage textMessage(String text) {
+        SendMessage msg = new SendMessage();
+        msg.setChatId(CHAT_ID);
+        msg.setParseMode("HTML");
+        msg.setReplyMarkup(keyboardBuilder.getStartKB());
+        msg.setText(text);
+        return msg;
     }
 
-    private InlineKeyboardButton buttonMain() {
-        final String OPEN_MAIN = "OM";
-        final String winking_face = new String(Character.toChars(0x1F609));
-        InlineKeyboardButton button = new InlineKeyboardButtonBuilder()
-                .setText("Начать!" + winking_face)
-                .setCallbackData(new Action(OPEN_MAIN).toString())
-                .build();
-        return button;
+    private SendPhoto photoMessage(String pictureID, ReplyKeyboardMarkup keyboard) {
+        SendPhoto msg = new SendPhoto();
+        msg.setChatId(CHAT_ID);
+        msg.setPhoto(pictureID);
+        msg.setCaption(TextTemplate.HELLO_MSG);
+        msg.setReplyMarkup(keyboardBuilder.getStartKB());
+        msg.setReplyMarkup(keyboard);
+        return msg;
     }
 
 
-    private boolean isUpdateMsg(Update update) {
+
+    private boolean isPhotoMsg(Update update) {
+        return update.hasMessage() && update.getMessage().hasPhoto();
+    }
+
+    private boolean isStickerMsg(Update update) {
+        return update.hasMessage() && update.getMessage().hasDocument();
+    }
+
+    private boolean isTextMsg(Update update) {
         return update.hasMessage() && update.getMessage().hasText();
     }
 
-    private boolean isUpdateCallback(Update update) {
-        return update.hasCallbackQuery();
-    }
 }
