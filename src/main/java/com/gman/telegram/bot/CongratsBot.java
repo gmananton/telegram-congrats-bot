@@ -53,9 +53,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     public void init() throws Exception {
         questions = questionBuilder.createAll();
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
-        SendPhoto photoMsg = photoMessage(Pictures.PUSHEEN_CAKE, keyboardBuilder.getStartKB());
-        sendPhoto(photoMsg);
-        execute(textMessage(TextTemplate.UNKNOWN_MSG));
+        sendPhoto(getStartMessage());
     }
 
     @Override
@@ -81,9 +79,26 @@ public class CongratsBot extends TelegramLongPollingBot {
         Message msg = update.getMessage();
         String text = msg.getText();
 
-        if ("/start".equalsIgnoreCase(text)) {
-            sendPhoto(photoMessage(Pictures.PUSHEEN_CAKE, keyboardBuilder.getStartKB()));
+        if (TextTemplate.GET_STARTED_MSG.equals(text)) {
+            startQuest();
         }
+
+        if ("/start".equalsIgnoreCase(text)) {
+            sendPhoto(getStartMessage());
+        }
+    }
+
+
+
+
+    public void startQuest() throws Exception {
+
+        log.info("User started quest");
+        Question question = questions.get(0);
+        sendPhoto(photoMessage(
+                question.getPictureId(),
+                question.getText(),
+                keyboardBuilder.getKB(question)));
     }
 
     private SendMessage textMessage(String text) {
@@ -95,28 +110,19 @@ public class CongratsBot extends TelegramLongPollingBot {
         return msg;
     }
 
-    private SendPhoto photoMessage(String pictureID, ReplyKeyboardMarkup keyboard) {
+    private SendPhoto photoMessage(String pictureID, String text, ReplyKeyboardMarkup keyboard) {
         SendPhoto msg = new SendPhoto();
         msg.setChatId(CHAT_ID);
         msg.setPhoto(pictureID);
-        msg.setCaption(TextTemplate.HELLO_MSG);
+        msg.setCaption(text);
         msg.setReplyMarkup(keyboardBuilder.getStartKB());
         msg.setReplyMarkup(keyboard);
         return msg;
     }
 
-
-
-    private boolean isPhotoMsg(Update update) {
-        return update.hasMessage() && update.getMessage().hasPhoto();
+    private SendPhoto getStartMessage() {
+        return photoMessage(Pictures.PUSHEEN_CAKE, TextTemplate.HELLO_MSG, keyboardBuilder.getStartKB());
     }
 
-    private boolean isStickerMsg(Update update) {
-        return update.hasMessage() && update.getMessage().hasDocument();
-    }
-
-    private boolean isTextMsg(Update update) {
-        return update.hasMessage() && update.getMessage().hasText();
-    }
 
 }
