@@ -1,20 +1,17 @@
 package com.gman.telegram.bot;
 
+import com.gman.telegram.TextTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.ApiContext;
-import org.telegram.telegrambots.api.methods.BotApiMethod;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.generics.BotOptions;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -35,6 +32,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String TOKEN;
 
+
     @PostConstruct
     public void init() {
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
@@ -52,12 +50,11 @@ public class CongratsBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            log.info("User sent text message: {}" , update);
-
+        if (isUpdateMsg(update)) {
+            log.info("User sent text message: {}", update);
             process(update);
-        } else if (update.hasCallbackQuery()) {
-            log.info("User sent callback: {}" , update);
+        } else if (isUpdateCallback(update)) {
+            log.info("User sent callback: {}", update);
             log.info(update.getCallbackQuery().getData());
 
         }
@@ -65,32 +62,30 @@ public class CongratsBot extends TelegramLongPollingBot {
 
 
     public void process(Update update) {
-        final String smiling_face_with_heart_eyes =
-                new String(Character.toChars(0x1F60D));
-        final String winking_face = new String(Character.toChars(0x1F609));
-        final String bouquet = new String(Character.toChars(0x1F490));
-        final String party_popper = new String(Character.toChars(0x1F389));
-
-        SendMessage answerMessage = null;
         String text = update.getMessage().getText();
-        if ("/start".equalsIgnoreCase(text)) {
-            answerMessage = new SendMessage();
-            answerMessage.setText("<b>Привет!" + smiling_face_with_heart_eyes +
-                    "\nВо-первых с днем рождения!"
-                    + bouquet + bouquet + bouquet + party_popper
-                    + " А во-вторых, ты готова поиграть в увлекательную викторину?</b>");
-            answerMessage.setParseMode("HTML");
-            answerMessage.setChatId(update.getMessage().getChatId());
-            InlineKeyboardMarkup markup = keyboard(update);
-            answerMessage.setReplyMarkup(markup);
-            try {
-                execute(answerMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+        SendMessage answer = new SendMessage();
+        answer.setParseMode("HTML");
+        answer.setChatId(update.getMessage().getChatId());
+        InlineKeyboardMarkup markup = keyboard(update);
+        answer.setReplyMarkup(markup);
 
+        answer.setText(
+                "/start".equalsIgnoreCase(text)
+                        ? TextTemplate.HELLO_MSG
+                        : TextTemplate.UNKNOWN_MSG
+        );
+
+        answer.setReplyMarkup(replyMarkup(update));
+
+        try {
+            execute(answer);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
+
+
+
 
     private InlineKeyboardMarkup keyboard(Update update) {
         final InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
@@ -100,9 +95,23 @@ public class CongratsBot extends TelegramLongPollingBot {
         return markup;
     }
 
-    private ReplyKeyboardMarkup keyboardReply(Update update) {
-        ReplyKeyboardMarkup kb = new ReplyKeyboardMarkup();
-        return kb;
+    private ReplyKeyboardMarkup replyMarkup(Update update) {
+        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
+
+        List<KeyboardRow> rows = new ArrayList<>(4);
+        KeyboardRow row1 = new KeyboardRow();
+        KeyboardRow row2 = new KeyboardRow();
+        KeyboardRow row3 = new KeyboardRow();
+        KeyboardRow row4 = new KeyboardRow();
+        row1.add("var1");
+        row2.add("var2");
+        row3.add("var3");
+        row4.add("var4");
+
+        rows.addAll(Arrays.asList(row1, row2, row3, row4));
+
+        markup.setKeyboard(rows);
+        return markup;
     }
 
     private InlineKeyboardButton buttonMain() {
@@ -113,5 +122,14 @@ public class CongratsBot extends TelegramLongPollingBot {
                 .setCallbackData(new Action(OPEN_MAIN).toString())
                 .build();
         return button;
+    }
+
+
+    private boolean isUpdateMsg(Update update) {
+        return update.hasMessage() && update.getMessage().hasText();
+    }
+
+    private boolean isUpdateCallback(Update update) {
+        return update.hasCallbackQuery();
     }
 }
