@@ -1,4 +1,4 @@
-package model;
+package com.gman.telegram.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

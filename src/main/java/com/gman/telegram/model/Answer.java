@@ -1,4 +1,4 @@
-package model;
+package com.gman.telegram.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +14,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Answer {
     private String text;
-//    private String picPath;
     private boolean correct;
 }

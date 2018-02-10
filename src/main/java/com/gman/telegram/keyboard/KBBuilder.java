@@ -1,7 +1,7 @@
 package com.gman.telegram.keyboard;
 
-import model.Question;
-import model.TextTemplate;
+import com.gman.telegram.data.TextTemplate;
+import com.gman.telegram.model.Question;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;

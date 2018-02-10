@@ -1,11 +1,12 @@
 package com.gman.telegram.bot;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gman.telegram.data.Pictures;
+import com.gman.telegram.data.TextTemplate;
 import com.gman.telegram.keyboard.KBBuilder;
+import com.gman.telegram.model.Question;
+import com.gman.telegram.quest.AnswerValidator;
+import com.gman.telegram.quest.QuestionBuilder;
 import lombok.extern.slf4j.Slf4j;
-import model.Pictures;
-import model.Question;
-import model.TextTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -38,13 +39,13 @@ public class CongratsBot extends TelegramLongPollingBot {
     private String CHAT_ID;
 
     @Autowired
-    private ObjectMapper mapper;
-
-    @Autowired
     private QuestionBuilder questionBuilder;
 
     @Autowired
     private KBBuilder keyboardBuilder;
+
+    @Autowired
+    private AnswerValidator validator;
 
     private List<Question> questions = new ArrayList<>();
 

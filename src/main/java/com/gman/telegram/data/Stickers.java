@@ -1,4 +1,4 @@
-package model;
+package com.gman.telegram.data;
 
 /**
  * Created by Anton Mikhaylov on 11.02.2018.

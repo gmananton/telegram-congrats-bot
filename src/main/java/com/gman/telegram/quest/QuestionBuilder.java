@@ -1,8 +1,8 @@
-package com.gman.telegram.bot;
+package com.gman.telegram.quest;
 
-import model.Answer;
-import model.Pictures;
-import model.Question;
+import com.gman.telegram.data.Pictures;
+import com.gman.telegram.model.Answer;
+import com.gman.telegram.model.Question;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class QuestionBuilder {
     public Question quest_1() {
         return Question.builder()
                 .text("Что тут изображено?")
-                .pictureId(Pictures.KORGI)
+                .pictureId(Pictures.CORGI)
                 .answers(Arrays.asList(
                                 new Answer("Корги", false),
                                 new Answer("Боченя", true),
@@ -48,7 +48,7 @@ public class QuestionBuilder {
                 .pictureId(Pictures.SNOWBOARD)
                 .answers(Arrays.asList(
                         new Answer("Немножко кото-кот, чо =)", false),
-                        new Answer("\"Смотри как умею!\"", false),
+                        new Answer("Смотри как умею!", false),
                         new Answer("Так и было задумано", true),
                         new Answer("Это паудер, детка!", false)))
                 .build();
