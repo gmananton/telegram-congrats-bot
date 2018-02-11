@@ -113,6 +113,7 @@ public class CongratsBot extends TelegramLongPollingBot {
                 }
 
             } else {
+                sendSticker(stickerMessage(Stickers.CAT_UNICORN));
                 execute(textMessage(BotTextTemplate.HAPPY_BIRTHDAY, null));
             }
 
