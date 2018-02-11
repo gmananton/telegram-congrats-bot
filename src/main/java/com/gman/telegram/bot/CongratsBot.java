@@ -99,12 +99,18 @@ public class CongratsBot extends TelegramLongPollingBot {
 
         if (UserTextTemplate.GET_STARTED_MSG.equals(text)) {
             provider.init();
-            sendPhoto(photoQuestion(provider.getNonAnsweredQuestion()));
+            sendPhoto(photoQuestion(provider.getNonAnsweredQuestion().get()));
             return;
         }
 
         if (UserTextTemplate.TRY_AGAIN_MSG.equals(text) || UserTextTemplate.CONTINUE_MSG.equals(text)) {
-            sendPhoto(photoQuestion(provider.getNonAnsweredQuestion()));
+            if (provider.getNonAnsweredQuestion().isPresent()) {
+                sendPhoto(photoQuestion(provider.getNonAnsweredQuestion().get()));
+            }
+            else {
+                execute(textMessage("Вопросов больше не осталось", null)); //TODO
+            }
+
             return;
         }
 

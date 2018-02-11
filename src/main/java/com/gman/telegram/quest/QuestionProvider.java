@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -59,21 +59,18 @@ public class QuestionProvider {
 
     // Находит первый id вопроса, на который еще не ответили
     public int findFirstNonAnsweredId() {
-
-        return questState.entrySet().stream()
+        Optional<Map.Entry<Integer, Boolean>> opt = questState.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(false))
-                .findFirst()
-                .get()
-                .getKey();
+                .findFirst();
+
+        return opt.isPresent() ? opt.get().getKey() : -1;
     }
 
 
-    public Question getNonAnsweredQuestion() {
-        Question res =  questions.stream()
+    public Optional<Question> getNonAnsweredQuestion() {
+        return questions.stream()
                 .filter(question -> question.getId().equals(findFirstNonAnsweredId()))
-                .findFirst()
-                .get();
-        return res;
+                .findFirst();
     }
 
     public Question quest_1() {
