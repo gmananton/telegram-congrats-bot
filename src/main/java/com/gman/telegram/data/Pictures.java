@@ -9,4 +9,9 @@ public class Pictures {
     public static final String SNOWBOARD = "AgADAgAD06kxG9gD-UsaJRzIGlQS1ZL4Mg4ABC-FM6zd_6ILz9gDAAEC";
 
     public static final String PUSHEEN_CAKE = "AgADAgAD16kxG9gD-Uvof2RMFiv5_m-aQw4ABMiVvAQfGSP9XjoBAAEC";
+
+    public static final String CORGI_JUMPING = "CgADAgADxwADv-IAAUgLdR0gW6L9KgI";
+
+
+
 }

@@ -1,9 +1,5 @@
 package com.gman.telegram.bot;
 
-import com.gman.telegram.data.BotTextTemplate;
-import com.gman.telegram.data.Pictures;
-import com.gman.telegram.data.Stickers;
-import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.keyboard.KBBuilder;
 import com.gman.telegram.model.Question;
 import com.gman.telegram.quest.AnswerValidator;
@@ -12,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.methods.send.SendSticker;
@@ -21,9 +18,22 @@ import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.gman.telegram.data.BotTextTemplate.*;
+import static com.gman.telegram.data.Gifs.GIF_CORGI;
+import static com.gman.telegram.data.Gifs.GIF_GIRL_CAKE;
+import static com.gman.telegram.data.Gifs.GIF_SAMOYED;
+import static com.gman.telegram.data.Gifs.GIF_SHEEP;
+import static com.gman.telegram.data.Pictures.PUSHEEN_CAKE;
+import static com.gman.telegram.data.Stickers.STICKER_CAT_LAPTOP;
+import static com.gman.telegram.data.Stickers.STICKER_CAT_SHERLOCK;
+import static com.gman.telegram.data.Stickers.STICKER_CAT_UNICORN;
+import static com.gman.telegram.data.UserTextTemplate.COMMAND_BEGIN;
+import static com.gman.telegram.data.UserTextTemplate.CONTINUE_MSG;
+import static com.gman.telegram.data.UserTextTemplate.GET_STARTED_MSG;
+import static com.gman.telegram.data.UserTextTemplate.TRY_AGAIN_MSG;
 
 /**
  * Created by Anton Mikhaylov on 09.02.2018.
@@ -51,8 +61,6 @@ public class CongratsBot extends TelegramLongPollingBot {
     @Autowired
     private AnswerValidator validator;
 
-    private List<Question> questions = new ArrayList<>();
-
 
     @PostConstruct
     public void init() throws Exception {
@@ -72,6 +80,7 @@ public class CongratsBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         try {
             process(update);
         } catch (Exception e) {
@@ -87,23 +96,23 @@ public class CongratsBot extends TelegramLongPollingBot {
         String text = msg.getText();
 
         if (!validator.isAnswerSupported(text, questions)) {
-            textMessage(BotTextTemplate.UNKNOWN_MSG, keyboardBuilder.startKB());
+            textMessage(UNKNOWN_MSG, keyboardBuilder.startKB());
             return;
         }
 
-        if (UserTextTemplate.COMMAND_BEGIN.equalsIgnoreCase(text)) {
+        if (COMMAND_BEGIN.equalsIgnoreCase(text)) {
             sendPhoto(getStartMessage());
             provider.init();
             return;
         }
 
-        if (UserTextTemplate.GET_STARTED_MSG.equals(text)) {
+        if (GET_STARTED_MSG.equals(text)) {
             provider.init();
             sendPhoto(photoQuestion(provider.getNonAnsweredQuestion().get()));
             return;
         }
 
-        if (UserTextTemplate.TRY_AGAIN_MSG.equals(text) || UserTextTemplate.CONTINUE_MSG.equals(text)) {
+        if (TRY_AGAIN_MSG.equals(text) || CONTINUE_MSG.equals(text)) {
             if (provider.getNonAnsweredQuestion().isPresent()) {
                 Question question = provider.getNonAnsweredQuestion().get();
                 if (question.isClue()) {
@@ -113,8 +122,12 @@ public class CongratsBot extends TelegramLongPollingBot {
                 }
 
             } else {
-                sendSticker(stickerMessage(Stickers.CAT_UNICORN));
-                execute(textMessage(BotTextTemplate.HAPPY_BIRTHDAY, null));
+                sendDocument(gifMessage(GIF_SAMOYED));
+                sendDocument(gifMessage(GIF_SHEEP));
+                sendDocument(gifMessage(GIF_CORGI));
+                sendSticker(stickerMessage(STICKER_CAT_UNICORN));
+                execute(textMessage(HAPPY_BIRTHDAY, null));
+                sendDocument(gifMessage(GIF_GIRL_CAKE));
             }
 
             return;
@@ -138,11 +151,11 @@ public class CongratsBot extends TelegramLongPollingBot {
 
         if (provider.answerIsCorrect(text)) {
             questState.put(nonAnsweredId, true);
-            sendSticker(stickerMessage(Stickers.CAT_SHERLOCK));
-            execute(textMessage(BotTextTemplate.CORRECT_ANSWER, keyboardBuilder.continueKB()));
+            sendSticker(stickerMessage(STICKER_CAT_SHERLOCK));
+            execute(textMessage(CORRECT_ANSWER, keyboardBuilder.continueKB()));
         } else {
-            sendSticker(stickerMessage(Stickers.CAT_LAPTOP));
-            execute(textMessage(BotTextTemplate.TRY_AGAIN, keyboardBuilder.tryAgainKB()));
+            sendSticker(stickerMessage(STICKER_CAT_LAPTOP));
+            execute(textMessage(TRY_AGAIN, keyboardBuilder.tryAgainKB()));
         }
     }
 
@@ -169,15 +182,22 @@ public class CongratsBot extends TelegramLongPollingBot {
         return msg;
     }
 
-    private SendSticker stickerMessage(String pictureID) {
+    private SendSticker stickerMessage(String pictureId) {
         SendSticker msg = new SendSticker();
         msg.setChatId(CHAT_ID);
-        msg.setSticker(pictureID);
+        msg.setSticker(pictureId);
+        return msg;
+    }
+
+    private SendDocument gifMessage(String pictureId) {
+        SendDocument msg = new SendDocument();
+        msg.setChatId(CHAT_ID);
+        msg.setDocument(pictureId);
         return msg;
     }
 
     private SendPhoto getStartMessage() {
-        return photoMessage(Pictures.PUSHEEN_CAKE, BotTextTemplate.HELLO_MSG, keyboardBuilder.startKB());
+        return photoMessage(PUSHEEN_CAKE, HELLO_MSG, keyboardBuilder.startKB());
     }
 
 }

@@ -43,7 +43,10 @@ public class QuestionProvider {
     }
 
     public List<Question> createAll() {
-        return Arrays.asList(quest_1(), clue_1(), quest_2(), quest_3());
+        return Arrays.asList(
+                quest_1(), clue_1(),
+                quest_2(), clue_2(),
+                quest_3(), clue_3());
     }
 
 
@@ -89,8 +92,9 @@ public class QuestionProvider {
     public Question clue_1() {
         return Question.builder()
                 .id(1)
-                .text("<i>Они</i> защищают тебя от солнца и ветра во время катания.\nПервую подсказку с кодом ты найдешь в <i>них</i>.")
-                .answers(Arrays.asList(new Answer("qwerty12", true)))
+                .text("<i>Она</i> защищает тебя от солнца и ветра во время катания.\nПопробуй найти <i>её</i> " +
+                        "и внутри ты обнаружишь первую подсказку с кодом, который надо будет ввести в поле ответа.")
+                .answers(Arrays.asList(new Answer("123qwe", true)))
                 .clue(true)
                 .build();
     }
@@ -111,8 +115,9 @@ public class QuestionProvider {
     public Question clue_2() {
         return Question.builder()
                 .id(3)
-                .text("<i>Они</i> защищают тебя от солнца и ветра во время катания.\nПервую подсказку с кодом ты найдешь в <i>них</i>.")
-                .answers(Arrays.asList(new Answer("qwerty12", true)))
+                .text("Отлично! Я вижу, ты отгадала загадку. А вот следующая подсказка:\n" +
+                        "Благодаря <i>им</i> мы познакомились")
+                .answers(Arrays.asList(new Answer("321asd", true)))
                 .clue(true)
                 .build();
     }
@@ -135,8 +140,10 @@ public class QuestionProvider {
     public Question clue_3() {
         return Question.builder()
                 .id(5)
-                .text("<i>Они</i> защищают тебя от солнца и ветра во время катания.\nПервую подсказку с кодом ты найдешь в <i>них</i>.")
-                .answers(Arrays.asList(new Answer("qwerty12", true)))
+                .text("Ага, значит, ты обнаружила первый сюрприз :) Но пока не открывай его - это еще не всё. " +
+                        "Вот еще одна загадка.\n" +
+                        "Это твой постоянный спутник во время путешествий и катания")
+                .answers(Arrays.asList(new Answer("555zxc", true)))
                 .clue(true)
                 .build();
     }
