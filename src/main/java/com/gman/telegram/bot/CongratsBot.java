@@ -103,7 +103,7 @@ public class CongratsBot extends TelegramLongPollingBot {
             return;
         }
 
-        if (UserTextTemplate.TRY_AGAIN_MSG.equals(text)) {
+        if (UserTextTemplate.TRY_AGAIN_MSG.equals(text) || UserTextTemplate.CONTINUE_MSG.equals(text)) {
             sendPhoto(photoQuestion(provider.getNonAnsweredQuestion()));
             return;
         }
@@ -126,11 +126,8 @@ public class CongratsBot extends TelegramLongPollingBot {
 
         if (provider.answerIsCorrect(text)) {
             questState.put(nonAnsweredId, true);
-            //TODO add reaction with cat sticker
-
-            sendPhoto(
-                    photoQuestion(provider.getNonAnsweredQuestion())
-            );
+            sendSticker(stickerMessage(Stickers.CAT_SHERLOCK));
+            execute(textMessage(BotTextTemplate.CORRECT_ANSWER, keyboardBuilder.continueKB()));
         } else {
             sendSticker(stickerMessage(Stickers.CAT_LAPTOP));
             execute(textMessage(BotTextTemplate.TRY_AGAIN, keyboardBuilder.tryAgainKB()));

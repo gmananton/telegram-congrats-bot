@@ -53,4 +53,15 @@ public class KBBuilder {
         markup.setKeyboard(rows);
         return markup;
     }
+
+    public ReplyKeyboardMarkup continueKB() {
+        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
+        markup.setResizeKeyboard(true);
+        List<KeyboardRow> rows = new ArrayList<>();
+        KeyboardRow row = new KeyboardRow();
+        row.add(UserTextTemplate.CONTINUE_MSG);
+        rows.add(row);
+        markup.setKeyboard(rows);
+        return markup;
+    }
 }

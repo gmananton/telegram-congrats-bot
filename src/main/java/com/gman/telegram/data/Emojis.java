@@ -9,6 +9,8 @@ public class Emojis {
 
     public static final String SMILING_CAT = new String(Character.toChars(0x1F63A));
     public static final String GRINNING_CAT = new String(Character.toChars(0x1F638));
+    public static final String CAT_WRY_SMILE = new String(Character.toChars(0x1F63C));
     public static final String PRESENT = new String(Character.toChars(0x1F381));
+
     public static final String CONFUSED_FACE = new String(Character.toChars(0x1F615));
 }

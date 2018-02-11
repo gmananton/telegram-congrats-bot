@@ -19,7 +19,8 @@ public class BotTextTemplate {
             "\nА в конце тебя ожидает сюрприз!" + GRINNING_CAT + PRESENT;
 
     public static final String UNKNOWN_MSG = "Извини, я не могу разобрать твой ответ... " + CONFUSED_FACE + "\nПопробуй еще раз или нажми /start, чтобы начать заново";
-
     public static final String TRY_AGAIN = "Упс, что-то не то..." + GRIMACING_FACE + "\nПопробуй еще раз";
+    public static final String CORRECT_ANSWER = "Отлично!" + SMILING_CAT;
+
 
 }

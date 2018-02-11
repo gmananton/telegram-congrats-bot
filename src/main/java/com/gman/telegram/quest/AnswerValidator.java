@@ -20,7 +20,8 @@ public class AnswerValidator {
     private final List<String> COMMANDS = Arrays.asList(
             UserTextTemplate.COMMAND_BEGIN,
             UserTextTemplate.GET_STARTED_MSG,
-            UserTextTemplate.TRY_AGAIN_MSG
+            UserTextTemplate.TRY_AGAIN_MSG,
+            UserTextTemplate.CONTINUE_MSG
     );
 
     public boolean isAnswerSupported(String userAnswer, List<Question> questions) {
