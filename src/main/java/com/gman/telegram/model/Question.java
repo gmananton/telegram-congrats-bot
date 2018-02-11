@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Question {
+    private Integer id;
     private String text;
     private String pictureId;
     private List<Answer> answers;

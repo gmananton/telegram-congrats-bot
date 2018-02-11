@@ -1,11 +1,12 @@
 package com.gman.telegram.bot;
 
 import com.gman.telegram.data.Pictures;
-import com.gman.telegram.data.TextTemplate;
+import com.gman.telegram.data.BotTextTemplate;
+import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.keyboard.KBBuilder;
 import com.gman.telegram.model.Question;
 import com.gman.telegram.quest.AnswerValidator;
-import com.gman.telegram.quest.QuestionBuilder;
+import com.gman.telegram.quest.QuestionProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Anton Mikhaylov on 09.02.2018.
@@ -39,7 +41,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     private String CHAT_ID;
 
     @Autowired
-    private QuestionBuilder questionBuilder;
+    private QuestionProvider provider;
 
     @Autowired
     private KBBuilder keyboardBuilder;
@@ -52,7 +54,6 @@ public class CongratsBot extends TelegramLongPollingBot {
 
     @PostConstruct
     public void init() throws Exception {
-        questions = questionBuilder.createAll();
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
         sendPhoto(getStartMessage());
     }
@@ -77,30 +78,38 @@ public class CongratsBot extends TelegramLongPollingBot {
     }
 
     public void process(Update update) throws Exception {
+
+        Map<Integer, Boolean> questState = provider.getQuestState();
+        List<Question> questions = provider.getQuestions();
+
         Message msg = update.getMessage();
         String text = msg.getText();
 
-        if (TextTemplate.GET_STARTED_MSG.equals(text)) {
-            startQuest();
+        if (!validator.isAnswerSupported(text, questions)) {
+            textMessage(BotTextTemplate.UNKNOWN_MSG);
+            return;
         }
 
-        if ("/start".equalsIgnoreCase(text)) {
+        if (UserTextTemplate.COMMAND_BEGIN.equalsIgnoreCase(text)) {
             sendPhoto(getStartMessage());
+            return;
         }
+
+        if (UserTextTemplate.GET_STARTED_MSG.equals(text)) {
+            log.info("User started quest");
+
+            Question question = questions.get(0);
+            sendPhoto(photoMessage(
+                    question.getPictureId(),
+                    question.getText(),
+                    keyboardBuilder.getKB(question)));
+
+        }
+
     }
 
 
 
-
-    public void startQuest() throws Exception {
-
-        log.info("User started quest");
-        Question question = questions.get(0);
-        sendPhoto(photoMessage(
-                question.getPictureId(),
-                question.getText(),
-                keyboardBuilder.getKB(question)));
-    }
 
     private SendMessage textMessage(String text) {
         SendMessage msg = new SendMessage();
@@ -122,7 +131,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     }
 
     private SendPhoto getStartMessage() {
-        return photoMessage(Pictures.PUSHEEN_CAKE, TextTemplate.HELLO_MSG, keyboardBuilder.getStartKB());
+        return photoMessage(Pictures.PUSHEEN_CAKE, BotTextTemplate.HELLO_MSG, keyboardBuilder.getStartKB());
     }
 
 

@@ -1,5 +1,7 @@
 package com.gman.telegram.quest;
 
+import com.gman.telegram.data.BotTextTemplate;
+import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.model.Answer;
 import com.gman.telegram.model.Question;
 import org.springframework.stereotype.Component;
@@ -16,7 +18,10 @@ import java.util.List;
 @Component
 public class AnswerValidator {
 
-    private final List<String> COMMANDS = Arrays.asList("/start");
+    private final List<String> COMMANDS = Arrays.asList(
+            UserTextTemplate.COMMAND_BEGIN,
+            UserTextTemplate.GET_STARTED_MSG
+    );
 
     public boolean isAnswerSupported(String userAnswer, List<Question> questions) {
         return

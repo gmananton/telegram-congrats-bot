@@ -1,6 +1,7 @@
 package com.gman.telegram.keyboard;
 
-import com.gman.telegram.data.TextTemplate;
+import com.gman.telegram.data.BotTextTemplate;
+import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.model.Question;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -37,7 +38,7 @@ public class KBBuilder {
         markup.setResizeKeyboard(true);
         List<KeyboardRow> rows = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
-        row.add(TextTemplate.GET_STARTED_MSG);
+        row.add(UserTextTemplate.GET_STARTED_MSG);
         rows.add(row);
         markup.setKeyboard(rows);
         return markup;
