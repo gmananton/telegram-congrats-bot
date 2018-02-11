@@ -58,7 +58,8 @@ public class AnswerRegistry {
         ));
 
         registry.put(3, Arrays.asList(
-                new Answer("777", true, new Reaction(STICKER_CAT_ROLLER, "Вжух! И это верный ответ!"))
+                new Answer("777", true, new Reaction(STICKER_CAT_ROLLER, "Вжух! И это верный ответ!\n" +
+                        "Ага, значит, ты обнаружила первый сюрприз :) Но пока не открывай его - это еще не всё."))
         ));
         registry.put(4, Arrays.asList(
                 new Answer("Немножко кото-кот, чо =)", false, incorrectReaction()),
