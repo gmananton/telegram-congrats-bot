@@ -28,11 +28,11 @@ public class AnswerValidator {
         return
                 isCommandSupported(userAnswer) ||
 
-                questions.stream()
-                .map(Question::getAnswers)
-                .flatMap(List::stream)
-                .map(Answer::getText)
-                .anyMatch(userAnswer::equals);
+                        questions.stream()
+                                .map(Question::getAnswers)
+                                .flatMap(List::stream)
+                                .map(Answer::getText)
+                                .anyMatch(userAnswer::equals);
     }
 
     public boolean isCommandSupported(String userCmd) {

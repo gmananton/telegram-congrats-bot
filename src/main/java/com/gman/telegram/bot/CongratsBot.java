@@ -71,7 +71,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     }
 
     @Override
-    public void onUpdateReceived(Update update)   {
+    public void onUpdateReceived(Update update) {
         try {
             process(update);
         } catch (Exception e) {
@@ -106,8 +106,7 @@ public class CongratsBot extends TelegramLongPollingBot {
         if (UserTextTemplate.TRY_AGAIN_MSG.equals(text) || UserTextTemplate.CONTINUE_MSG.equals(text)) {
             if (provider.getNonAnsweredQuestion().isPresent()) {
                 sendPhoto(photoQuestion(provider.getNonAnsweredQuestion().get()));
-            }
-            else {
+            } else {
                 execute(textMessage("Вопросов больше не осталось", null)); //TODO
             }
 
@@ -139,10 +138,6 @@ public class CongratsBot extends TelegramLongPollingBot {
             execute(textMessage(BotTextTemplate.TRY_AGAIN, keyboardBuilder.tryAgainKB()));
         }
     }
-
-
-
-
 
 
     private SendMessage textMessage(String text, ReplyKeyboardMarkup keyboard) {
