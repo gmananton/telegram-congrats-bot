@@ -173,5 +173,4 @@ public class CongratsBot extends TelegramLongPollingBot {
         return photoMessage(Pictures.PUSHEEN_CAKE, BotTextTemplate.HELLO_MSG, keyboardBuilder.startKB());
     }
 
-
 }
