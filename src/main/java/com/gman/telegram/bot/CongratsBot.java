@@ -105,7 +105,13 @@ public class CongratsBot extends TelegramLongPollingBot {
 
         if (UserTextTemplate.TRY_AGAIN_MSG.equals(text) || UserTextTemplate.CONTINUE_MSG.equals(text)) {
             if (provider.getNonAnsweredQuestion().isPresent()) {
-                sendPhoto(photoQuestion(provider.getNonAnsweredQuestion().get()));
+                Question question = provider.getNonAnsweredQuestion().get();
+                if (question.isClue()) {
+                    execute(textMessage(question.getText(), null));
+                } else {
+                    sendPhoto(photoQuestion(question));
+                }
+
             } else {
                 execute(textMessage("Вопросов больше не осталось", null)); //TODO
             }

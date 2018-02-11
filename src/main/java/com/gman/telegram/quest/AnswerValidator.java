@@ -21,7 +21,8 @@ public class AnswerValidator {
             UserTextTemplate.COMMAND_BEGIN,
             UserTextTemplate.GET_STARTED_MSG,
             UserTextTemplate.TRY_AGAIN_MSG,
-            UserTextTemplate.CONTINUE_MSG
+            UserTextTemplate.CONTINUE_MSG,
+            UserTextTemplate.ENTER_CODE
     );
 
     public boolean isAnswerSupported(String userAnswer, List<Question> questions) {

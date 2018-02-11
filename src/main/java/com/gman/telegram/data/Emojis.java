@@ -13,4 +13,6 @@ public class Emojis {
     public static final String PRESENT = new String(Character.toChars(0x1F381));
 
     public static final String CONFUSED_FACE = new String(Character.toChars(0x1F615));
+    public static final String COMPUTER = new String(Character.toChars(0x1F4BB));
+
 }

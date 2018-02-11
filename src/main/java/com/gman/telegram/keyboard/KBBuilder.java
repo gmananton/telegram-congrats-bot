@@ -47,6 +47,7 @@ public class KBBuilder {
     private ReplyKeyboardMarkup SingleRowKB(String buttonText) {
         ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
         markup.setResizeKeyboard(true);
+        markup.setOneTimeKeyboard(true);
         List<KeyboardRow> rows = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
         row.add(buttonText);

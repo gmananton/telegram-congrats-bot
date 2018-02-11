@@ -20,4 +20,5 @@ public class Question {
     private String text;
     private String pictureId;
     private List<Answer> answers;
+    private boolean clue = false;
 }

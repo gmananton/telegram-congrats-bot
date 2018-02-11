@@ -43,7 +43,7 @@ public class QuestionProvider {
     }
 
     public List<Question> createAll() {
-        return Arrays.asList(quest_1(), quest_2(), quest_3());
+        return Arrays.asList(quest_1(), clue_1(), quest_2(), quest_3());
     }
 
 
@@ -83,6 +83,15 @@ public class QuestionProvider {
                                 new Answer("Боченя", true),
                                 new Answer("Пиченя", false),
                                 new Answer("Тирства", false)))
+                .build();
+    }
+
+    public Question clue_1() {
+        return Question.builder()
+                .id(1)
+                .text("<i>Они</i> защищают тебя от солнца и ветра во время катания.\nПервую подсказку с кодом ты найдешь в <i>них</i>.")
+                .answers(Arrays.asList(new Answer("qwerty12", true)))
+                .clue(true)
                 .build();
     }
 
