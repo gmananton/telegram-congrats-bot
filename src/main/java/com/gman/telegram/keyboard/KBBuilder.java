@@ -33,33 +33,23 @@ public class KBBuilder {
     }
 
     public ReplyKeyboardMarkup startKB() {
-        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
-        markup.setResizeKeyboard(true);
-        List<KeyboardRow> rows = new ArrayList<>();
-        KeyboardRow row = new KeyboardRow();
-        row.add(UserTextTemplate.GET_STARTED_MSG);
-        rows.add(row);
-        markup.setKeyboard(rows);
-        return markup;
+        return SingleRowKB(UserTextTemplate.GET_STARTED_MSG);
     }
 
     public ReplyKeyboardMarkup tryAgainKB() {
-        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
-        markup.setResizeKeyboard(true);
-        List<KeyboardRow> rows = new ArrayList<>();
-        KeyboardRow row = new KeyboardRow();
-        row.add(UserTextTemplate.TRY_AGAIN_MSG);
-        rows.add(row);
-        markup.setKeyboard(rows);
-        return markup;
+        return SingleRowKB(UserTextTemplate.TRY_AGAIN_MSG);
     }
 
     public ReplyKeyboardMarkup continueKB() {
+        return SingleRowKB(UserTextTemplate.CONTINUE_MSG);
+    }
+
+    private ReplyKeyboardMarkup SingleRowKB(String buttonText) {
         ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
         markup.setResizeKeyboard(true);
         List<KeyboardRow> rows = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
-        row.add(UserTextTemplate.CONTINUE_MSG);
+        row.add(buttonText);
         rows.add(row);
         markup.setKeyboard(rows);
         return markup;
