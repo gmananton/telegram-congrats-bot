@@ -97,7 +97,7 @@ public class QuestionProvider {
 
     public Question quest_2() {
         return Question.builder()
-                .id(1)
+                .id(2)
                 .text("Что это за вершина?")
                 .pictureId(Pictures.EVEREST)
                 .answers(Arrays.asList(
@@ -108,9 +108,20 @@ public class QuestionProvider {
                 .build();
     }
 
+    public Question clue_2() {
+        return Question.builder()
+                .id(3)
+                .text("<i>Они</i> защищают тебя от солнца и ветра во время катания.\nПервую подсказку с кодом ты найдешь в <i>них</i>.")
+                .answers(Arrays.asList(new Answer("qwerty12", true)))
+                .clue(true)
+                .build();
+    }
+
+
+
     public Question quest_3() {
         return Question.builder()
-                .id(2)
+                .id(4)
                 .text("Что тут произошло?")
                 .pictureId(Pictures.SNOWBOARD)
                 .answers(Arrays.asList(
@@ -118,6 +129,15 @@ public class QuestionProvider {
                         new Answer("Смотри как умею!", false),
                         new Answer("Так и было задумано", true),
                         new Answer("Это паудер, детка!", false)))
+                .build();
+    }
+
+    public Question clue_3() {
+        return Question.builder()
+                .id(5)
+                .text("<i>Они</i> защищают тебя от солнца и ветра во время катания.\nПервую подсказку с кодом ты найдешь в <i>них</i>.")
+                .answers(Arrays.asList(new Answer("qwerty12", true)))
+                .clue(true)
                 .build();
     }
 }

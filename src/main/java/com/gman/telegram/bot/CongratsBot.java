@@ -113,7 +113,7 @@ public class CongratsBot extends TelegramLongPollingBot {
                 }
 
             } else {
-                execute(textMessage("Вопросов больше не осталось", null)); //TODO
+                execute(textMessage(BotTextTemplate.HAPPY_BIRTHDAY, null));
             }
 
             return;
