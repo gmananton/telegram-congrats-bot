@@ -4,6 +4,7 @@ import com.gman.telegram.data.Pictures;
 import com.gman.telegram.model.Answer;
 import com.gman.telegram.model.Question;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Anton Mikhaylov on 10.02.2018.
  */
+@Slf4j
 @Component
 public class QuestionProvider {
 
@@ -36,10 +38,22 @@ public class QuestionProvider {
             // Collectors.toMap - почему-то не работет
             questState.put(q.getId(), false);
         }
+        log.info("QuestionProvider initialized");
     }
 
     public List<Question> createAll() {
         return Arrays.asList(quest_1(), quest_2(), quest_3());
+    }
+
+
+    public boolean answerIsCorrect(String answer) {
+        return questions.stream()
+                .map(Question::getAnswers)
+                .flatMap(List::stream)
+                .filter(Answer::isCorrect)
+                .map(Answer::getText)
+                .collect(Collectors.toList())
+                .contains(answer);
     }
 
     public Question quest_1() {

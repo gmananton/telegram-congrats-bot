@@ -1,6 +1,5 @@
 package com.gman.telegram.quest;
 
-import com.gman.telegram.data.BotTextTemplate;
 import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.model.Answer;
 import com.gman.telegram.model.Question;

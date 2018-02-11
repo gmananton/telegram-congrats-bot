@@ -1,6 +1,6 @@
 package com.gman.telegram.quest;
 
-import com.gman.telegram.data.BotTextTemplate;
+import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.model.Question;
 import org.junit.Test;
 
@@ -40,8 +40,8 @@ public class AnswerValidatorTest {
             assertTrue(validator.isAnswerSupported(answer, questions));
         }
 
-        assertTrue(validator.isAnswerSupported(BotTextTemplate.COMMAND_BEGIN, questions));
-        assertTrue(validator.isAnswerSupported(BotTextTemplate.GET_STARTED_MSG, questions));
+        assertTrue(validator.isAnswerSupported(UserTextTemplate.COMMAND_BEGIN, questions));
+        assertTrue(validator.isAnswerSupported(UserTextTemplate.GET_STARTED_MSG, questions));
         assertFalse(validator.isAnswerSupported("Some custom random user answer", questions));
 
 

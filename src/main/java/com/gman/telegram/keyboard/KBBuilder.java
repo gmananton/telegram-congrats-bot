@@ -1,6 +1,5 @@
 package com.gman.telegram.keyboard;
 
-import com.gman.telegram.data.BotTextTemplate;
 import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.model.Question;
 import org.springframework.stereotype.Component;

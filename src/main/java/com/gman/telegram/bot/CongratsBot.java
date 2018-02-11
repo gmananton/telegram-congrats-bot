@@ -1,9 +1,10 @@
 package com.gman.telegram.bot;
 
-import com.gman.telegram.data.Pictures;
 import com.gman.telegram.data.BotTextTemplate;
+import com.gman.telegram.data.Pictures;
 import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.keyboard.KBBuilder;
+import com.gman.telegram.model.Answer;
 import com.gman.telegram.model.Question;
 import com.gman.telegram.quest.AnswerValidator;
 import com.gman.telegram.quest.QuestionProvider;
@@ -22,6 +23,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Anton Mikhaylov on 09.02.2018.
@@ -92,20 +94,29 @@ public class CongratsBot extends TelegramLongPollingBot {
 
         if (UserTextTemplate.COMMAND_BEGIN.equalsIgnoreCase(text)) {
             sendPhoto(getStartMessage());
+            provider.init();
+            return;
+        }
+
+        if (validator.isAnswerSupported(text, questions)) {
+            reactToAnswer(text);
             return;
         }
 
         if (UserTextTemplate.GET_STARTED_MSG.equals(text)) {
-            log.info("User started quest");
-
             Question question = questions.get(0);
             sendPhoto(photoMessage(
                     question.getPictureId(),
                     question.getText(),
                     keyboardBuilder.getKB(question)));
-
         }
 
+    }
+
+    private void reactToAnswer(String text) {
+        if (provider.answerIsCorrect(text)) {
+
+        }
     }
 
 
