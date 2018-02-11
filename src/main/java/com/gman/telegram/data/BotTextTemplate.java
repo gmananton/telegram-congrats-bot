@@ -1,6 +1,7 @@
 package com.gman.telegram.data;
 
 import static com.gman.telegram.data.Emojis.CONFUSED_FACE;
+import static com.gman.telegram.data.Emojis.GRIMACING_FACE;
 import static com.gman.telegram.data.Emojis.GRINNING_CAT;
 import static com.gman.telegram.data.Emojis.PRESENT;
 import static com.gman.telegram.data.Emojis.SMILING_CAT;
@@ -19,5 +20,6 @@ public class BotTextTemplate {
 
     public static final String UNKNOWN_MSG = "Извини, я не могу разобрать твой ответ... " + CONFUSED_FACE + "\nПопробуй еще раз или нажми /start, чтобы начать заново";
 
+    public static final String TRY_AGAIN = "Упс, что-то не то..." + GRIMACING_FACE + "\nПопробуй еще раз";
 
 }

@@ -2,6 +2,7 @@ package com.gman.telegram.bot;
 
 import com.gman.telegram.data.BotTextTemplate;
 import com.gman.telegram.data.Pictures;
+import com.gman.telegram.data.Stickers;
 import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.keyboard.KBBuilder;
 import com.gman.telegram.model.Question;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.api.methods.send.SendSticker;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -85,7 +87,7 @@ public class CongratsBot extends TelegramLongPollingBot {
         String text = msg.getText();
 
         if (!validator.isAnswerSupported(text, questions)) {
-            textMessage(BotTextTemplate.UNKNOWN_MSG);
+            textMessage(BotTextTemplate.UNKNOWN_MSG, keyboardBuilder.startKB());
             return;
         }
 
@@ -96,9 +98,13 @@ public class CongratsBot extends TelegramLongPollingBot {
         }
 
         if (UserTextTemplate.GET_STARTED_MSG.equals(text)) {
-            sendPhoto(
-                    photoQuestion(provider.getNonAnsweredQuestion())
-            );
+            provider.init();
+            sendPhoto(photoQuestion(provider.getNonAnsweredQuestion()));
+            return;
+        }
+
+        if (UserTextTemplate.TRY_AGAIN_MSG.equals(text)) {
+            sendPhoto(photoQuestion(provider.getNonAnsweredQuestion()));
             return;
         }
 
@@ -125,6 +131,9 @@ public class CongratsBot extends TelegramLongPollingBot {
             sendPhoto(
                     photoQuestion(provider.getNonAnsweredQuestion())
             );
+        } else {
+            sendSticker(stickerMessage(Stickers.CAT_LAPTOP));
+            execute(textMessage(BotTextTemplate.TRY_AGAIN, keyboardBuilder.tryAgainKB()));
         }
     }
 
@@ -133,17 +142,17 @@ public class CongratsBot extends TelegramLongPollingBot {
 
 
 
-    private SendMessage textMessage(String text) {
+    private SendMessage textMessage(String text, ReplyKeyboardMarkup keyboard) {
         SendMessage msg = new SendMessage();
         msg.setChatId(CHAT_ID);
         msg.setParseMode("HTML");
-        msg.setReplyMarkup(keyboardBuilder.getStartKB());
+        msg.setReplyMarkup(keyboard);
         msg.setText(text);
         return msg;
     }
 
     private SendPhoto photoQuestion(Question question) {
-        return photoMessage(question.getPictureId(), question.getText(), keyboardBuilder.getKB(question));
+        return photoMessage(question.getPictureId(), question.getText(), keyboardBuilder.keyboard(question));
     }
 
     private SendPhoto photoMessage(String pictureID, String text, ReplyKeyboardMarkup keyboard) {
@@ -151,13 +160,19 @@ public class CongratsBot extends TelegramLongPollingBot {
         msg.setChatId(CHAT_ID);
         msg.setPhoto(pictureID);
         msg.setCaption(text);
-        msg.setReplyMarkup(keyboardBuilder.getStartKB());
         msg.setReplyMarkup(keyboard);
         return msg;
     }
 
+    private SendSticker stickerMessage(String pictureID) {
+        SendSticker msg = new SendSticker();
+        msg.setChatId(CHAT_ID);
+        msg.setSticker(pictureID);
+        return msg;
+    }
+
     private SendPhoto getStartMessage() {
-        return photoMessage(Pictures.PUSHEEN_CAKE, BotTextTemplate.HELLO_MSG, keyboardBuilder.getStartKB());
+        return photoMessage(Pictures.PUSHEEN_CAKE, BotTextTemplate.HELLO_MSG, keyboardBuilder.startKB());
     }
 
 

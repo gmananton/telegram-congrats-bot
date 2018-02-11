@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class KBBuilder {
 
-    public ReplyKeyboardMarkup getKB(Question question) {
+    public ReplyKeyboardMarkup keyboard(Question question) {
 
         ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
         List<KeyboardRow> rows = new ArrayList<>(4);
@@ -32,12 +32,23 @@ public class KBBuilder {
         return markup;
     }
 
-    public ReplyKeyboardMarkup getStartKB() {
+    public ReplyKeyboardMarkup startKB() {
         ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
         markup.setResizeKeyboard(true);
         List<KeyboardRow> rows = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
         row.add(UserTextTemplate.GET_STARTED_MSG);
+        rows.add(row);
+        markup.setKeyboard(rows);
+        return markup;
+    }
+
+    public ReplyKeyboardMarkup tryAgainKB() {
+        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
+        markup.setResizeKeyboard(true);
+        List<KeyboardRow> rows = new ArrayList<>();
+        KeyboardRow row = new KeyboardRow();
+        row.add(UserTextTemplate.TRY_AGAIN_MSG);
         rows.add(row);
         markup.setKeyboard(rows);
         return markup;
