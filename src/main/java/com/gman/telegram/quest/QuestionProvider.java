@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class QuestionProvider {
      * по команде /start происходит сброс состояния
      * */
     @Getter
-    private Map<Integer, Boolean> questState = new HashMap<>();
+    private Map<Integer, Boolean> questState = new LinkedHashMap<>();
 
     @Getter
     private List<Question> questions;
@@ -54,6 +55,25 @@ public class QuestionProvider {
                 .map(Answer::getText)
                 .collect(Collectors.toList())
                 .contains(answer);
+    }
+
+    // Находит первый id вопроса, на который еще не ответили
+    public int findFirstNonAnsweredId() {
+
+        return questState.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(false))
+                .findFirst()
+                .get()
+                .getKey();
+    }
+
+
+    public Question getNonAnsweredQuestion() {
+        Question res =  questions.stream()
+                .filter(question -> question.getId().equals(findFirstNonAnsweredId()))
+                .findFirst()
+                .get();
+        return res;
     }
 
     public Question quest_1() {

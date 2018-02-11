@@ -4,7 +4,6 @@ import com.gman.telegram.data.BotTextTemplate;
 import com.gman.telegram.data.Pictures;
 import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.keyboard.KBBuilder;
-import com.gman.telegram.model.Answer;
 import com.gman.telegram.model.Question;
 import com.gman.telegram.quest.AnswerValidator;
 import com.gman.telegram.quest.QuestionProvider;
@@ -23,7 +22,6 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by Anton Mikhaylov on 09.02.2018.
@@ -81,7 +79,6 @@ public class CongratsBot extends TelegramLongPollingBot {
 
     public void process(Update update) throws Exception {
 
-        Map<Integer, Boolean> questState = provider.getQuestState();
         List<Question> questions = provider.getQuestions();
 
         Message msg = update.getMessage();
@@ -98,26 +95,40 @@ public class CongratsBot extends TelegramLongPollingBot {
             return;
         }
 
+        if (UserTextTemplate.GET_STARTED_MSG.equals(text)) {
+            sendPhoto(
+                    photoQuestion(provider.getNonAnsweredQuestion())
+            );
+            return;
+        }
+
         if (validator.isAnswerSupported(text, questions)) {
             reactToAnswer(text);
             return;
         }
 
-        if (UserTextTemplate.GET_STARTED_MSG.equals(text)) {
-            Question question = questions.get(0);
-            sendPhoto(photoMessage(
-                    question.getPictureId(),
-                    question.getText(),
-                    keyboardBuilder.getKB(question)));
-        }
 
     }
 
-    private void reactToAnswer(String text) {
+    private void reactToAnswer(String text) throws Exception {
+
+        Map<Integer, Boolean> questState = provider.getQuestState();
+
+        //найти первый вопрос, на который еще не ответили
+        int nonAnsweredId = provider.findFirstNonAnsweredId();
+
+
         if (provider.answerIsCorrect(text)) {
+            questState.put(nonAnsweredId, true);
+            //TODO add reaction with cat sticker
 
+            sendPhoto(
+                    photoQuestion(provider.getNonAnsweredQuestion())
+            );
         }
     }
+
+
 
 
 
@@ -129,6 +140,10 @@ public class CongratsBot extends TelegramLongPollingBot {
         msg.setReplyMarkup(keyboardBuilder.getStartKB());
         msg.setText(text);
         return msg;
+    }
+
+    private SendPhoto photoQuestion(Question question) {
+        return photoMessage(question.getPictureId(), question.getText(), keyboardBuilder.getKB(question));
     }
 
     private SendPhoto photoMessage(String pictureID, String text, ReplyKeyboardMarkup keyboard) {
