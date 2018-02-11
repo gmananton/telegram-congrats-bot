@@ -5,6 +5,7 @@ import com.gman.telegram.model.Answer;
 import com.gman.telegram.model.Question;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +22,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class QuestionProvider {
+
+    @Autowired
+    private AnswerRegistry answerRegistry;
 
     /**
      * связка id вопроса и состояния "решен/не решен"
@@ -81,11 +85,7 @@ public class QuestionProvider {
                 .id(0)
                 .text("Что тут изображено?")
                 .pictureId(Pictures.CORGI)
-                .answers(Arrays.asList(
-                                new Answer("Корги", false),
-                                new Answer("Боченя", true),
-                                new Answer("Пиченя", false),
-                                new Answer("Тирства", false)))
+                .answers(answerRegistry.get(0))
                 .build();
     }
 
@@ -94,7 +94,7 @@ public class QuestionProvider {
                 .id(1)
                 .text("<i>Она</i> защищает тебя от солнца и ветра во время катания.\nПопробуй найти <i>её</i> " +
                         "и внутри ты обнаружишь первую подсказку с кодом, который надо будет ввести в поле ответа.")
-                .answers(Arrays.asList(new Answer("123qwe", true)))
+                .answers(answerRegistry.get(1))
                 .clue(true)
                 .build();
     }
@@ -104,11 +104,7 @@ public class QuestionProvider {
                 .id(2)
                 .text("Что это за вершина?")
                 .pictureId(Pictures.EVEREST)
-                .answers(Arrays.asList(
-                        new Answer("Эверест", true),
-                        new Answer("Монблан", false),
-                        new Answer("Маттерхорн", false),
-                        new Answer("Сорочаны", false)))
+                .answers(answerRegistry.get(2))
                 .build();
     }
 
@@ -117,7 +113,7 @@ public class QuestionProvider {
                 .id(3)
                 .text("Отлично! Я вижу, ты отгадала загадку. А вот следующая подсказка:\n" +
                         "Благодаря <i>им</i> мы познакомились")
-                .answers(Arrays.asList(new Answer("321asd", true)))
+                .answers(answerRegistry.get(3))
                 .clue(true)
                 .build();
     }
@@ -129,11 +125,7 @@ public class QuestionProvider {
                 .id(4)
                 .text("Что тут произошло?")
                 .pictureId(Pictures.SNOWBOARD)
-                .answers(Arrays.asList(
-                        new Answer("Немножко кото-кот, чо =)", false),
-                        new Answer("Смотри как умею!", false),
-                        new Answer("Так и было задумано", true),
-                        new Answer("Это паудер, детка!", false)))
+                .answers(answerRegistry.get(4))
                 .build();
     }
 
@@ -143,7 +135,7 @@ public class QuestionProvider {
                 .text("Ага, значит, ты обнаружила первый сюрприз :) Но пока не открывай его - это еще не всё. " +
                         "Вот еще одна загадка.\n" +
                         "Это твой постоянный спутник во время путешествий и катания")
-                .answers(Arrays.asList(new Answer("555zxc", true)))
+                .answers(answerRegistry.get(5))
                 .clue(true)
                 .build();
     }

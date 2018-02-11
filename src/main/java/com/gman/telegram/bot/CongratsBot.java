@@ -1,7 +1,10 @@
 package com.gman.telegram.bot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gman.telegram.keyboard.KBBuilder;
 import com.gman.telegram.model.Question;
+import com.gman.telegram.model.Reaction;
+import com.gman.telegram.quest.AnswerRegistry;
 import com.gman.telegram.quest.AnswerValidator;
 import com.gman.telegram.quest.QuestionProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +24,14 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
-import static com.gman.telegram.data.BotTextTemplate.*;
+import static com.gman.telegram.data.BotTextTemplate.HAPPY_BIRTHDAY;
+import static com.gman.telegram.data.BotTextTemplate.HELLO_MSG;
+import static com.gman.telegram.data.BotTextTemplate.UNKNOWN_MSG;
 import static com.gman.telegram.data.Gifs.GIF_CORGI;
 import static com.gman.telegram.data.Gifs.GIF_GIRL_CAKE;
 import static com.gman.telegram.data.Gifs.GIF_SAMOYED;
 import static com.gman.telegram.data.Gifs.GIF_SHEEP;
 import static com.gman.telegram.data.Pictures.PUSHEEN_CAKE;
-import static com.gman.telegram.data.Stickers.STICKER_CAT_LAPTOP;
-import static com.gman.telegram.data.Stickers.STICKER_CAT_SHERLOCK;
 import static com.gman.telegram.data.Stickers.STICKER_CAT_UNICORN;
 import static com.gman.telegram.data.UserTextTemplate.COMMAND_BEGIN;
 import static com.gman.telegram.data.UserTextTemplate.CONTINUE_MSG;
@@ -56,10 +59,16 @@ public class CongratsBot extends TelegramLongPollingBot {
     private QuestionProvider provider;
 
     @Autowired
+    private AnswerRegistry answerRegistry;
+
+    @Autowired
     private KBBuilder keyboardBuilder;
 
     @Autowired
     private AnswerValidator validator;
+
+    @Autowired
+    ObjectMapper mapper;
 
 
     @PostConstruct
@@ -148,14 +157,14 @@ public class CongratsBot extends TelegramLongPollingBot {
         //найти первый вопрос, на который еще не ответили
         int nonAnsweredId = provider.findFirstNonAnsweredId();
 
+        Reaction reaction = answerRegistry.findAnswerByText(text).getReaction();
+        sendSticker(stickerMessage(reaction.getSticker()));
 
         if (provider.answerIsCorrect(text)) {
             questState.put(nonAnsweredId, true);
-            sendSticker(stickerMessage(STICKER_CAT_SHERLOCK));
-            execute(textMessage(CORRECT_ANSWER, keyboardBuilder.continueKB()));
+            execute(textMessage(reaction.getText(), keyboardBuilder.continueKB()));
         } else {
-            sendSticker(stickerMessage(STICKER_CAT_LAPTOP));
-            execute(textMessage(TRY_AGAIN, keyboardBuilder.tryAgainKB()));
+            execute(textMessage(reaction.getText(), keyboardBuilder.tryAgainKB()));
         }
     }
 

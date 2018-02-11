@@ -12,4 +12,9 @@ public class Stickers {
     public static final String STICKER_CAT_SHERLOCK_QUESTION = "CAADAgAD_wADmY-lB4smkdqhKbx6Ag";
     public static final String STICKER_CAT_BOOK = "CAADBAAD6AIAAlI5kwY3UleEq2z1DwI";
     public static final String STICKER_CAT_COMIX = "CAADBAAD4gIAAlI5kwbDAVz8MQbSJAI";
+    public static final String STICKER_HUGS = "CAADAgAD1wUAAjbsGwVnzbwqalKLrQI";
+    public static final String STICKER_CAT_ROLLER = "CAADAgADmwADmY-lByIAAQHo1oOb4AI";
+    public static final String STICKER_CAT_CLEVER = "CAADAgADjQADmY-lB5dR3xV7x7KGAg";
+    public static final String STICKER_CAT_BACKPACK = "CAADAgADvQoAAkKvaQABbkzKZQg-2hIC";
+    public static final String STICKER_BEAR_NINJA = "CAADBQADFQEAApRzpAlT95WYqKosEgI";
 }
