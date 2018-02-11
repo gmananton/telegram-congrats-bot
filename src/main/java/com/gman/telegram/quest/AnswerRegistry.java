@@ -47,7 +47,7 @@ public class AnswerRegistry {
         ));
 
         registry.put(1, Arrays.asList(
-                new Answer("123qwe", true, new Reaction(STICKER_CAT_SHERLOCK, "Да ты прям Шерлок!"))
+                new Answer("12345", true, new Reaction(STICKER_CAT_SHERLOCK, "Да ты прям Шерлок!"))
         ));
 
         registry.put(2, Arrays.asList(
@@ -58,7 +58,7 @@ public class AnswerRegistry {
         ));
 
         registry.put(3, Arrays.asList(
-                new Answer("321asd", true, new Reaction(STICKER_CAT_ROLLER, "Вжух! И это верный ответ!"))
+                new Answer("777", true, new Reaction(STICKER_CAT_ROLLER, "Вжух! И это верный ответ!"))
         ));
         registry.put(4, Arrays.asList(
                 new Answer("Немножко кото-кот, чо =)", false, incorrectReaction()),
@@ -68,7 +68,7 @@ public class AnswerRegistry {
         ));
 
         registry.put(5, Arrays.asList(
-                new Answer("555zxc", true, new Reaction(STICKER_CAT_BACKPACK, "ТА-ДАМ! Молодец, возьми с полки пирожок =)"))
+                new Answer("130", true, new Reaction(STICKER_CAT_BACKPACK, "ТА-ДАМ! Молодец, возьми с полки пирожок =)"))
         ));
     }
 
