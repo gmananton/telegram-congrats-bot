@@ -9,6 +9,7 @@ import com.gman.telegram.quest.QuestionProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -19,7 +20,6 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -67,8 +67,8 @@ public class CongratsBot extends TelegramLongPollingBot {
     private AnswerValidator validator;
 
 
-    @PostConstruct
-//    @Scheduled(cron = "0 30 17 13 2 *")
+//    @PostConstruct
+    @Scheduled(cron = "0 30 20 13 2 *")
     public void startMessaging() throws Exception {
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
         sendPhoto(getStartMessage());
@@ -78,7 +78,6 @@ public class CongratsBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-
         try {
             process(update);
         } catch (Exception e) {
