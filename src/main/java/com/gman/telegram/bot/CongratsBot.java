@@ -70,7 +70,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     @PostConstruct
 //    @Scheduled(cron = "0 15 13 2 *")
     public void startMessaging() throws Exception {
-        log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
+        log.info("Bot {} initialized. Token1: {}", BOT_NAME, TOKEN);
         sendPhoto(getStartMessage());
     }
 
