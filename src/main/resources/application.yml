@@ -6,3 +6,5 @@ chat:
   id:
     anton: 127527969
     anuta: 149893381
+server:
+  port: 9999

@@ -2,6 +2,7 @@ package com.gman.telegram.quest;
 
 import com.gman.telegram.data.UserTextTemplate;
 import com.gman.telegram.model.Question;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class AnswerValidatorTest {
 
     @Test
+    @Ignore
     public void testAnswerIsSupported() {
         List<Question> questions = new QuestionProvider().createAll();
         AnswerValidator validator = new AnswerValidator();

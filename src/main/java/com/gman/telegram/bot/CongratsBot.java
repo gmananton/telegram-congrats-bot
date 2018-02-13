@@ -1,6 +1,5 @@
 package com.gman.telegram.bot;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gman.telegram.keyboard.KBBuilder;
 import com.gman.telegram.model.Question;
 import com.gman.telegram.model.Reaction;
@@ -67,25 +66,15 @@ public class CongratsBot extends TelegramLongPollingBot {
     @Autowired
     private AnswerValidator validator;
 
-    @Autowired
-    ObjectMapper mapper;
-
 
     @PostConstruct
-    public void init() throws Exception {
+//    @Scheduled(cron = "0 15 13 2 *")
+    public void startMessaging() throws Exception {
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
         sendPhoto(getStartMessage());
     }
 
-    @Override
-    public String getBotToken() {
-        return TOKEN;
-    }
 
-    @Override
-    public String getBotUsername() {
-        return BOT_NAME;
-    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -207,6 +196,16 @@ public class CongratsBot extends TelegramLongPollingBot {
 
     private SendPhoto getStartMessage() {
         return photoMessage(PUSHEEN_CAKE, HELLO_MSG, keyboardBuilder.startKB());
+    }
+
+    @Override
+    public String getBotToken() {
+        return TOKEN;
+    }
+
+    @Override
+    public String getBotUsername() {
+        return BOT_NAME;
     }
 
 }
