@@ -42,8 +42,8 @@ public class AnswerValidatorTest {
             assertTrue(validator.isAnswerSupported(answer, questions));
         }
 
-        assertTrue(validator.isAnswerSupported(UserTextTemplate.COMMAND_BEGIN, questions));
-        assertTrue(validator.isAnswerSupported(UserTextTemplate.GET_STARTED_MSG, questions));
+        assertTrue(validator.isAnswerSupported(UserTextTemplate.COMMAND_START, questions));
+        assertTrue(validator.isAnswerSupported(UserTextTemplate.START_QUEST_MSG, questions));
         assertFalse(validator.isAnswerSupported("Some custom random user answer", questions));
 
 

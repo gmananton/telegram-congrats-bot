@@ -33,7 +33,7 @@ public class KBBuilder {
     }
 
     public ReplyKeyboardMarkup startKB() {
-        return SingleRowKB(UserTextTemplate.GET_STARTED_MSG);
+        return SingleRowKB(UserTextTemplate.START_QUEST_MSG);
     }
 
     public ReplyKeyboardMarkup tryAgainKB() {

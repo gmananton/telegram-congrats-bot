@@ -33,9 +33,9 @@ import static com.gman.telegram.data.Gifs.GIF_SAMOYED;
 import static com.gman.telegram.data.Gifs.GIF_SHEEP;
 import static com.gman.telegram.data.Pictures.PUSHEEN_CAKE;
 import static com.gman.telegram.data.Stickers.STICKER_CAT_UNICORN;
-import static com.gman.telegram.data.UserTextTemplate.COMMAND_BEGIN;
+import static com.gman.telegram.data.UserTextTemplate.COMMAND_START;
 import static com.gman.telegram.data.UserTextTemplate.CONTINUE_MSG;
-import static com.gman.telegram.data.UserTextTemplate.GET_STARTED_MSG;
+import static com.gman.telegram.data.UserTextTemplate.START_QUEST_MSG;
 import static com.gman.telegram.data.UserTextTemplate.TRY_AGAIN_MSG;
 
 /**
@@ -93,17 +93,20 @@ public class CongratsBot extends TelegramLongPollingBot {
         String text = msg.getText();
 
         if (!validator.isAnswerSupported(text, questions)) {
-            textMessage(UNKNOWN_MSG, keyboardBuilder.startKB());
+            log.info("User sent unknown command");
+            execute(textMessage(UNKNOWN_MSG, keyboardBuilder.startKB()));
             return;
         }
 
-        if (COMMAND_BEGIN.equalsIgnoreCase(text)) {
+        if (COMMAND_START.equalsIgnoreCase(text)) {
+            log.info("User sent /start command");
             sendPhoto(getStartMessage());
             provider.init();
             return;
         }
 
-        if (GET_STARTED_MSG.equals(text)) {
+        if (START_QUEST_MSG.equals(text)) {
+            log.info("User starts over");
             provider.init();
             sendPhoto(photoQuestion(provider.getNonAnsweredQuestion().get()));
             return;
@@ -125,7 +128,6 @@ public class CongratsBot extends TelegramLongPollingBot {
             return;
         }
 
-
     }
 
 
@@ -140,7 +142,7 @@ public class CongratsBot extends TelegramLongPollingBot {
 
         switch (type) {
             case GIF:
-                sendDocument(gifMessage(media, keyboardBuilder.keyboard(question)));
+                sendDocument(gifMessage(media, text, keyboardBuilder.keyboard(question)));
                 break;
             case PHOTO:
                 sendPhoto(photoMessage(media, text, keyboardBuilder.keyboard(question)));
@@ -154,12 +156,12 @@ public class CongratsBot extends TelegramLongPollingBot {
     }
 
     public void sendFinalMessage() throws TelegramApiException {
-        sendDocument(gifMessage(GIF_SAMOYED, null));
-        sendDocument(gifMessage(GIF_SHEEP, null));
-        sendDocument(gifMessage(GIF_CORGI, null));
+        sendDocument(gifMessage(GIF_SAMOYED, null, null));
+        sendDocument(gifMessage(GIF_SHEEP, null, null));
+        sendDocument(gifMessage(GIF_CORGI, null, null));
         sendSticker(stickerMessage(STICKER_CAT_UNICORN));
         execute(textMessage(HAPPY_BIRTHDAY, null));
-        sendDocument(gifMessage(GIF_GIRL_CAKE, null));
+        sendDocument(gifMessage(GIF_GIRL_CAKE, null, null));
     }
 
     private void reactToAnswer(String text) throws TelegramApiException {
@@ -210,11 +212,12 @@ public class CongratsBot extends TelegramLongPollingBot {
         return msg;
     }
 
-    private SendDocument gifMessage(String pictureId, ReplyKeyboardMarkup keyboard) {
+    private SendDocument gifMessage(String pictureId, String caption, ReplyKeyboardMarkup keyboard) {
         SendDocument msg = new SendDocument();
         msg.setChatId(CHAT_ID);
         msg.setDocument(pictureId);
         msg.setReplyMarkup(keyboard);
+        msg.setCaption(caption);
         return msg;
     }
 

@@ -18,8 +18,8 @@ import java.util.List;
 public class AnswerValidator {
 
     private final List<String> COMMANDS = Arrays.asList(
-            UserTextTemplate.COMMAND_BEGIN,
-            UserTextTemplate.GET_STARTED_MSG,
+            UserTextTemplate.COMMAND_START,
+            UserTextTemplate.START_QUEST_MSG,
             UserTextTemplate.TRY_AGAIN_MSG,
             UserTextTemplate.CONTINUE_MSG,
             UserTextTemplate.ENTER_CODE
