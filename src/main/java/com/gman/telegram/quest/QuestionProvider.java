@@ -16,6 +16,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.gman.telegram.data.Gifs.GIF_ENGINE;
+import static com.gman.telegram.model.Question.Type.GIF;
+import static com.gman.telegram.model.Question.Type.PHOTO;
+import static com.gman.telegram.model.Question.Type.TEXT;
+
 /**
  * Created by Anton Mikhaylov on 10.02.2018.
  */
@@ -47,10 +52,7 @@ public class QuestionProvider {
     }
 
     public List<Question> createAll() {
-        return Arrays.asList(
-                quest_1(), clue_1(),
-                quest_2(), clue_2(),
-                quest_3(), clue_3());
+        return Arrays.asList(q1(), q2(), q3(), q4(), q5(), q6(), q7(), q8());
     }
 
 
@@ -80,64 +82,86 @@ public class QuestionProvider {
                 .findFirst();
     }
 
-    public Question quest_1() {
+    public Question q1() {
         return Question.builder()
-                .id(0)
+                .id(1)
+                .type(PHOTO)
                 .text("Что тут изображено?")
                 .pictureId(Pictures.CORGI)
-                .answers(answerRegistry.get(0))
+                .answers(answerRegistry.get(1))
                 .build();
     }
 
-    public Question clue_1() {
+    public Question q2() {
         return Question.builder()
-                .id(1)
+                .id(2)
+                .type(TEXT)
                 .text("Вот первая загадка:\n" +
                         "<i>Она</i> защищает тебя от солнца и ветра во время катания.\n" +
                         "Попробуй найти <i>её</i> и внутри ты обнаружишь первую подсказку с кодом, " +
                         "который надо будет ввести в поле ответа.")
-                .answers(answerRegistry.get(1))
-                .clue(true)
-                .build();
-    }
-
-    public Question quest_2() {
-        return Question.builder()
-                .id(2)
-                .text("Что это за вершина?")
-                .pictureId(Pictures.EVEREST)
                 .answers(answerRegistry.get(2))
                 .build();
     }
 
-    public Question clue_2() {
+    public Question q3() {
         return Question.builder()
                 .id(3)
-                .text("Отлично! Я вижу, ты отгадала загадку. А вот следующая подсказка:\n" +
-                        "Благодаря <i>им</i> мы познакомились")
+                .type(PHOTO)
+                .text("Что это за вершина?")
+                .pictureId(Pictures.EVEREST)
                 .answers(answerRegistry.get(3))
-                .clue(true)
                 .build();
     }
 
-
-
-    public Question quest_3() {
+    public Question q4() {
         return Question.builder()
                 .id(4)
-                .text("Что тут произошло?")
-                .pictureId(Pictures.SNOWBOARD)
+                .type(TEXT)
+                .text("Отлично! Я вижу, ты отгадала загадку. А вот следующая подсказка:\n" +
+                        "Благодаря <i>им</i> мы познакомились")
                 .answers(answerRegistry.get(4))
                 .build();
     }
 
-    public Question clue_3() {
+
+    public Question q5() {
         return Question.builder()
                 .id(5)
+                .type(GIF)
+                .text("Какой это тип двигателя?")
+                .pictureId(GIF_ENGINE)
+                .answers(answerRegistry.get(5))
+                .build();
+    }
+
+    public Question q6() {
+        return Question.builder()
+                .id(6)
+                .type(TEXT)
+                .text("<i>Она</i> периодически дребезжит, но без <i>неё</i> не приготовить вкуснейший стейк")
+                .answers(answerRegistry.get(6))
+                .build();
+    }
+
+
+    public Question q7() {
+        return Question.builder()
+                .id(7)
+                .type(PHOTO)
+                .text("Что тут произошло?")
+                .pictureId(Pictures.SNOWBOARD_FAIL)
+                .answers(answerRegistry.get(7))
+                .build();
+    }
+
+    public Question q8() {
+        return Question.builder()
+                .id(8)
+                .type(TEXT)
                 .text("Вот финальная загадка.\n" +
                         "Это твой постоянный спутник во время путешествий и катания")
-                .answers(answerRegistry.get(5))
-                .clue(true)
+                .answers(answerRegistry.get(8))
                 .build();
     }
 }

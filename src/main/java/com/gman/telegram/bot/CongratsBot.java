@@ -9,7 +9,6 @@ import com.gman.telegram.quest.QuestionProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -19,7 +18,9 @@ import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
@@ -67,14 +68,11 @@ public class CongratsBot extends TelegramLongPollingBot {
     private AnswerValidator validator;
 
 
-//    @PostConstruct
-    @Scheduled(cron = "0 30 20 13 2 *")
+    @PostConstruct
     public void startMessaging() throws Exception {
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
         sendPhoto(getStartMessage());
     }
-
-
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -85,7 +83,9 @@ public class CongratsBot extends TelegramLongPollingBot {
         }
     }
 
-    public void process(Update update) throws Exception {
+    public void process(Update update) throws TelegramApiException {
+
+        log.info("Got message: {} from chat_id={}", update.getMessage(), CHAT_ID);
 
         List<Question> questions = provider.getQuestions();
 
@@ -112,19 +112,9 @@ public class CongratsBot extends TelegramLongPollingBot {
         if (TRY_AGAIN_MSG.equals(text) || CONTINUE_MSG.equals(text)) {
             if (provider.getNonAnsweredQuestion().isPresent()) {
                 Question question = provider.getNonAnsweredQuestion().get();
-                if (question.isClue()) {
-                    execute(textMessage(question.getText(), null));
-                } else {
-                    sendPhoto(photoQuestion(question));
-                }
-
+                sendQuestion(question);
             } else {
-                sendDocument(gifMessage(GIF_SAMOYED));
-                sendDocument(gifMessage(GIF_SHEEP));
-                sendDocument(gifMessage(GIF_CORGI));
-                sendSticker(stickerMessage(STICKER_CAT_UNICORN));
-                execute(textMessage(HAPPY_BIRTHDAY, null));
-                sendDocument(gifMessage(GIF_GIRL_CAKE));
+                sendFinalMessage();
             }
 
             return;
@@ -138,7 +128,41 @@ public class CongratsBot extends TelegramLongPollingBot {
 
     }
 
-    private void reactToAnswer(String text) throws Exception {
+
+
+    private void sendQuestion(Question question) throws TelegramApiException {
+
+        log.info("Sending question id={} to chat_id={}", question.getId(), CHAT_ID);
+
+        Question.Type type = question.getType();
+        String media = question.getPictureId();
+        String text = question.getText();
+
+        switch (type) {
+            case GIF:
+                sendDocument(gifMessage(media, keyboardBuilder.keyboard(question)));
+                break;
+            case PHOTO:
+                sendPhoto(photoMessage(media, text, keyboardBuilder.keyboard(question)));
+                break;
+            case STICKER:
+                sendSticker(stickerMessage(media));
+                break;
+            default:
+                execute(textMessage(text, null));
+        }
+    }
+
+    public void sendFinalMessage() throws TelegramApiException {
+        sendDocument(gifMessage(GIF_SAMOYED, null));
+        sendDocument(gifMessage(GIF_SHEEP, null));
+        sendDocument(gifMessage(GIF_CORGI, null));
+        sendSticker(stickerMessage(STICKER_CAT_UNICORN));
+        execute(textMessage(HAPPY_BIRTHDAY, null));
+        sendDocument(gifMessage(GIF_GIRL_CAKE, null));
+    }
+
+    private void reactToAnswer(String text) throws TelegramApiException {
 
         Map<Integer, Boolean> questState = provider.getQuestState();
 
@@ -186,10 +210,11 @@ public class CongratsBot extends TelegramLongPollingBot {
         return msg;
     }
 
-    private SendDocument gifMessage(String pictureId) {
+    private SendDocument gifMessage(String pictureId, ReplyKeyboardMarkup keyboard) {
         SendDocument msg = new SendDocument();
         msg.setChatId(CHAT_ID);
         msg.setDocument(pictureId);
+        msg.setReplyMarkup(keyboard);
         return msg;
     }
 

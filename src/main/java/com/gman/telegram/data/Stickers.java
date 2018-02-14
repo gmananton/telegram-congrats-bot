@@ -17,4 +17,5 @@ public class Stickers {
     public static final String STICKER_CAT_CLEVER = "CAADAgADjQADmY-lB5dR3xV7x7KGAg";
     public static final String STICKER_CAT_BACKPACK = "CAADAgADvQoAAkKvaQABbkzKZQg-2hIC";
     public static final String STICKER_BEAR_NINJA = "CAADBQADFQEAApRzpAlT95WYqKosEgI";
+    public static final String STICKER_MOOSE = "CAADAgADdQADIeyZB-PPfLKcmm7GAg";
 }

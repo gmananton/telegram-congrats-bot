@@ -20,5 +20,9 @@ public class Question {
     private String text;
     private String pictureId;
     private List<Answer> answers;
-    private boolean clue = false;
+    private Type type;
+
+    public enum Type {
+        PHOTO,STICKER,GIF,TEXT
+    }
 }
