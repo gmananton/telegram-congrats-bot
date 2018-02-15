@@ -52,7 +52,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String TOKEN;
 
-    @Value("${chat.id.anton}")
+    @Value("${chat.id.anuta}")
     private String CHAT_ID;
 
     @Autowired
