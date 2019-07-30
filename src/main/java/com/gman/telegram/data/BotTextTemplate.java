@@ -18,8 +18,8 @@ public class BotTextTemplate {
     public static final String TRY_AGAIN = "Упс, что-то не то..." + GRIMACING_FACE + "\nПопробуй еще раз";
     public static final String CORRECT_ANSWER = "Отлично!" + SMILING_CAT;
 
-    public static final String HAPPY_BIRTHDAY = "С Днем Рождения, Котище!" + PRESENT + CAKE + PARTY_POPPER +
-            "\nПусть этот подарок поможет тебе как в работе, так и в творчестве!" + COMPUTER +
+    public static final String HAPPY_BIRTHDAY = "С Днем Рождения, Хома!" + PRESENT + CAKE + PARTY_POPPER +
+            "\nПусть этот подарок поможет тебе как в работе, так и в творчестве! Он спрятан под подушкой у Пряни." +
             "\nЯ тебя очень сильно люблю!" + CAT_KISSING + CAT_HEARTS;
 
 }

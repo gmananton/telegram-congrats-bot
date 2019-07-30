@@ -24,12 +24,20 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
-import static com.gman.telegram.data.BotTextTemplate.*;
-import static com.gman.telegram.data.Gifs.*;
+import static com.gman.telegram.data.BotTextTemplate.HAPPY_BIRTHDAY;
+import static com.gman.telegram.data.BotTextTemplate.HELLO_MSG;
+import static com.gman.telegram.data.BotTextTemplate.UNKNOWN_MSG;
+import static com.gman.telegram.data.Gifs.GIF_CORGI;
+import static com.gman.telegram.data.Gifs.GIF_GIRL_CAKE;
+import static com.gman.telegram.data.Gifs.GIF_SAMOYED;
+import static com.gman.telegram.data.Gifs.GIF_SHEEP;
 import static com.gman.telegram.data.Pictures.PICTURE_STUB;
 import static com.gman.telegram.data.Pictures.PUSHEEN_CAKE;
 import static com.gman.telegram.data.Stickers.STICKER_CAT_UNICORN;
-import static com.gman.telegram.data.UserTextTemplate.*;
+import static com.gman.telegram.data.UserTextTemplate.COMMAND_START;
+import static com.gman.telegram.data.UserTextTemplate.CONTINUE_MSG;
+import static com.gman.telegram.data.UserTextTemplate.START_QUEST_MSG;
+import static com.gman.telegram.data.UserTextTemplate.TRY_AGAIN_MSG;
 
 /**
  * Created by Anton Mikhaylov on 09.02.2018.
@@ -46,8 +54,8 @@ public class CongratsBot extends TelegramLongPollingBot {
     private String TOKEN;
 
 //    @Value("${chat.id.anuta}")
-//    @Value("${chat.id.anton}")
-    @Value("${chat.id.svyatosha}")
+    @Value("${chat.id.anton}")
+//    @Value("${chat.id.svyatosha}")
     private String CHAT_ID;
 
     @Autowired
@@ -66,7 +74,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     @PostConstruct
     public void startMessaging() throws Exception {
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
-        sendPhoto(getStartMessage());
+//        sendPhoto(getStartMessage());
     }
 
     @Override

@@ -5,10 +5,13 @@ import com.gman.telegram.model.Reaction;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.gman.telegram.data.BotTextTemplate.TRY_AGAIN;
-import static com.gman.telegram.data.Emojis.CAT_KISSING;
 import static com.gman.telegram.data.Stickers.*;
 
 /**
@@ -40,39 +43,26 @@ public class AnswerRegistry {
                 new Answer("Чук и Гек", false, incorrectReaction()),
                 new Answer("Том и Ям", false, incorrectReaction()),
                 new Answer("Котя и Кротя", false, incorrectReaction()),
-                new Answer("Джек и Денилс", true, new Reaction(STICKER_HUGS, "Дооо!!"))));
+                new Answer("Джек и Денилс", true, new Reaction(STICKER_HUGS, "Дооо!"))));
 
         registry.put(2, Arrays.asList(
                 new Answer("31", true, new Reaction(STICKER_CAT_SHERLOCK, "Да ты прям Шерлок!"))));
 
         registry.put(3, Arrays.asList(
-                new Answer("Эверест", true, new Reaction(STICKER_CAT_BOOK, "Он самый!")),
-                new Answer("Монблан", false, incorrectReaction()),
-                new Answer("Маттерхорн", false, incorrectReaction()),
-                new Answer("Сорочаны", false, incorrectReaction())));
+                new Answer("Селфи-палка", false, incorrectReaction()),
+                new Answer("Профессиональная камера", false, incorrectReaction()),
+                new Answer("Хороший телефон", true, new Reaction(STICKER_CAT_BOOK, "Он самый!")),
+                new Answer("Ноутбук для работы", false, incorrectReaction())));
+
 
         registry.put(4, Arrays.asList(
-                new Answer("777", true, new Reaction(STICKER_CAT_ROLLER, "Вжух! И это верный ответ!\n" +
-                        "Ага, значит, ты обнаружила первый сюрприз :) Но пока не открывай его - это еще не всё."))));
+                new Answer("Федя", false, incorrectReaction()),
+                new Answer("Кеша", true, new Reaction(STICKER_CAT_PIANO, "Конечно!")),
+                new Answer("Гриша", false, incorrectReaction()),
+                new Answer("Слуга народа", false, incorrectReaction())));
 
         registry.put(5, Arrays.asList(
-                new Answer("Рядная 4-ка", false, incorrectReaction()),
-                new Answer("Оппозитный", false, incorrectReaction()),
-                new Answer("Роторный", false, incorrectReaction()),
-                new Answer("V6", true, new Reaction(STICKER_CAT_PIANO, "Логический кот!"))));
-
-        registry.put(6, Arrays.asList(
-                new Answer("Alpindustria", true, new Reaction(STICKER_MOOSE,
-                        "Привет от мамочки с папочкой" + CAT_KISSING + "\nВозьми себе клёвый эквип =)"))));
-
-        registry.put(7, Arrays.asList(
-                new Answer("Немножко кото-кот, чо =)", false, incorrectReaction()),
-                new Answer("Смотри как умею!", false, incorrectReaction()),
-                new Answer("Так и было задумано", true, new Reaction(STICKER_BEAR_NINJA, "Канеш! Всё четенько!")),
-                new Answer("Это паудер, детка!", false, incorrectReaction())));
-
-        registry.put(8, Arrays.asList(
-                new Answer("130", true, new Reaction(STICKER_CAT_BACKPACK, "ТА-ДАМ! Молодец, возьми с полки пирожок =)"))));
+                new Answer("Хома", true, new Reaction(STICKER_MOOSE, "Верно!"))));
     }
 
 

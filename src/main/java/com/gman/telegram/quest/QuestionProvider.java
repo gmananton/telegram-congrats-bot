@@ -9,11 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.gman.telegram.data.Gifs.GIF_ENGINE;
-import static com.gman.telegram.model.Question.Type.*;
+import static com.gman.telegram.model.Question.Type.PHOTO;
+import static com.gman.telegram.model.Question.Type.TEXT;
 
 /**
  * Created by Anton Mikhaylov on 10.02.2018.
@@ -46,7 +50,7 @@ public class QuestionProvider {
     }
 
     public List<Question> createAll() {
-        return Arrays.asList(q1(), q2(), q3(), q4(), q5(), q6(), q7(), q8());
+        return Arrays.asList(q1(), q2(), q3(), q4(), q5());
     }
 
 
@@ -100,9 +104,8 @@ public class QuestionProvider {
     public Question q3() {
         return Question.builder()
                 .id(3)
-                .type(PHOTO)
-                .text("Что это за вершина?")
-                .pictureId(Pictures.EVEREST)
+                .type(TEXT)
+                .text("Что нужно для начинающего блогера, который решил вести свой блог, выкладывать много видео-обзор, много редактировать?")
                 .answers(answerRegistry.get(3))
                 .build();
     }
@@ -111,8 +114,7 @@ public class QuestionProvider {
         return Question.builder()
                 .id(4)
                 .type(TEXT)
-                .text("Отлично! Я вижу, ты отгадала загадку. А вот следующая подсказка:\n" +
-                        "Благодаря <i>им</i> мы познакомились")
+                .text("Как зовут робота, который живет с тобой?")
                 .answers(answerRegistry.get(4))
                 .build();
     }
@@ -121,40 +123,9 @@ public class QuestionProvider {
     public Question q5() {
         return Question.builder()
                 .id(5)
-                .type(GIF)
-                .text("Какой это тип двигателя?")
-                .pictureId(GIF_ENGINE)
+                .type(TEXT)
+                .text("Теперь, когда ты догадалась о чем идет речь, попробуй найти <i>под ним</i> записку со словом, которое надо будет внести в поле ответа.")
                 .answers(answerRegistry.get(5))
-                .build();
-    }
-
-    public Question q6() {
-        return Question.builder()
-                .id(6)
-                .type(TEXT)
-                .text("<i>Она</i> периодически дребезжит, но без <i>неё</i> не приготовить вкуснейший стейк")
-                .answers(answerRegistry.get(6))
-                .build();
-    }
-
-
-    public Question q7() {
-        return Question.builder()
-                .id(7)
-                .type(PHOTO)
-                .text("Что тут произошло?")
-                .pictureId(Pictures.SNOWBOARD_FAIL)
-                .answers(answerRegistry.get(7))
-                .build();
-    }
-
-    public Question q8() {
-        return Question.builder()
-                .id(8)
-                .type(TEXT)
-                .text("Вот финальная загадка.\n" +
-                        "Это твой постоянный спутник во время путешествий и катания")
-                .answers(answerRegistry.get(8))
                 .build();
     }
 }
