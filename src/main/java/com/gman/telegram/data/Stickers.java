@@ -4,6 +4,16 @@ package com.gman.telegram.data;
  * Created by Anton Mikhaylov on 11.02.2018.
  */
 public class Stickers {
+
+    public static final String CORGI_LICKING = "CAADAgADXgADR_sJDI0KdnnROyt6FgQ";
+    public static final String CORGI_HEARTS = "CAADAgADkQADR_sJDICwtLJhcTDoFgQ";
+    public static final String CORGI_GRASS = "CAADAgADYAADR_sJDGg9dhSbfMYIFgQ";
+    public static final String CORGI_FLOWERS = "CAADAgADegADR_sJDKB8EqlAcRBWFgQ";
+    public static final String CORGI_KISS = "CAADAgADjwADR_sJDOIrlnaf5Z2xFgQ";
+    public static final String CORGI_HIGH_FIVE = "CAADAgADowADR_sJDP3SVqepTnv_FgQ";
+    public static final String FOX_HUG = "CAADAgADwQIAAu7EoQrlofeMm-V3MBYE";
+
+
     public static final String STICKER_CAT_PIANO = "CAADBAADzgIAAlI5kwYx5piqr6aXgQI";
     public static final String STICKER_CAT_CAKE = "CAADBAAD0AIAAlI5kwawwS2UUaU0XQI";
     public static final String STICKER_CAT_LAPTOP = "CAADBAADlwMAAlI5kwayXLLrd21tpAI";

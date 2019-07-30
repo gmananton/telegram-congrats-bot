@@ -17,4 +17,6 @@ public class Emojis {
     public static final String CAT_HEARTS = new String(Character.toChars(0x1F63B));
     public static final String CAT_KISSING = new String(Character.toChars(0x1F63D));
     public static final String CAT_WEARY_FACE = new String(Character.toChars(0x1F640));
+
+    public static final String ROBOT = new String(Character.toChars(0x1F916));
 }

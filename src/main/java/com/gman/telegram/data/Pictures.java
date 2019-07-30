@@ -17,4 +17,6 @@ public class Pictures {
     public static final String JACK_DANIELS = "AgADAgADFasxG9QaCUrXiVG5yfS8g27Itw8ABAEAAwIAA20AA6GxAQABFgQ";
 
     public static final String PICTURE_STUB = "AgADAgADp6sxGxB4CEqI-mYKHN57fiTRuQ8ABAEAAwIAA20AAzxQAAIWBA";
+
+    public static final String ROBO = "AgADAgADa6sxG6taCUqEoL-j3CQNX1-hhQ8ABAEAAwIAA20AA4ccAwABFgQ";
 }

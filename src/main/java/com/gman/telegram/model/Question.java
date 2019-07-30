@@ -23,6 +23,6 @@ public class Question {
     private Type type;
 
     public enum Type {
-        PHOTO,STICKER,GIF,TEXT
+        PHOTO, STICKER, GIF, TEXT, TEXT_WITH_VARIANTS
     }
 }

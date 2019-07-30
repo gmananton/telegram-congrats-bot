@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static com.gman.telegram.model.Question.Type.PHOTO;
 import static com.gman.telegram.model.Question.Type.TEXT;
+import static com.gman.telegram.model.Question.Type.TEXT_WITH_VARIANTS;
 
 /**
  * Created by Anton Mikhaylov on 10.02.2018.
@@ -95,8 +96,8 @@ public class QuestionProvider {
                 .id(2)
                 .type(TEXT)
                 .text("Вот и первая загадка:\n" +
-                        "<i>Он</i> помогает тебе узнать какой день недели или дату.\n" +
-                        "Попробуй найти на <i>нем</i> перевернутое значение, которое надо будет внести в поле ответа.")
+                        "Он помогает тебе узнать, какой сейчас день недели или дата.\n" +
+                        "Попробуй найти на нем перевернутое значение, которое надо будет внести в поле ответа.")
                 .answers(answerRegistry.get(2))
                 .build();
     }
@@ -104,8 +105,8 @@ public class QuestionProvider {
     public Question q3() {
         return Question.builder()
                 .id(3)
-                .type(TEXT)
-                .text("Что нужно для начинающего блогера, который решил вести свой блог, выкладывать много видео-обзор, много редактировать?")
+                .type(TEXT_WITH_VARIANTS)
+                .text("Что нужно для начинающего блогера, который решил вести свой блог, выкладывать много видео-обзоров и много редактировать?")
                 .answers(answerRegistry.get(3))
                 .build();
     }
@@ -113,7 +114,7 @@ public class QuestionProvider {
     public Question q4() {
         return Question.builder()
                 .id(4)
-                .type(TEXT)
+                .type(TEXT_WITH_VARIANTS)
                 .text("Как зовут робота, который живет с тобой?")
                 .answers(answerRegistry.get(4))
                 .build();

@@ -43,26 +43,26 @@ public class AnswerRegistry {
                 new Answer("Чук и Гек", false, incorrectReaction()),
                 new Answer("Том и Ям", false, incorrectReaction()),
                 new Answer("Котя и Кротя", false, incorrectReaction()),
-                new Answer("Джек и Денилс", true, new Reaction(STICKER_HUGS, "Дооо!"))));
+                new Answer("Джек и Денилс", true, new Reaction(CORGI_HEARTS, "Дооо!"))));
 
         registry.put(2, Arrays.asList(
-                new Answer("31", true, new Reaction(STICKER_CAT_SHERLOCK, "Да ты прям Шерлок!"))));
+                new Answer("31", true, new Reaction(CORGI_GRASS, "Да ты прям Шерлок!"))));
 
         registry.put(3, Arrays.asList(
                 new Answer("Селфи-палка", false, incorrectReaction()),
                 new Answer("Профессиональная камера", false, incorrectReaction()),
-                new Answer("Хороший телефон", true, new Reaction(STICKER_CAT_BOOK, "Он самый!")),
+                new Answer("Хороший телефон", true, new Reaction(CORGI_KISS, "Он самый!")),
                 new Answer("Ноутбук для работы", false, incorrectReaction())));
 
 
         registry.put(4, Arrays.asList(
                 new Answer("Федя", false, incorrectReaction()),
-                new Answer("Кеша", true, new Reaction(STICKER_CAT_PIANO, "Конечно!")),
+                new Answer("Кеша", true, new Reaction(CORGI_HIGH_FIVE, "Конечно!")),
                 new Answer("Гриша", false, incorrectReaction()),
                 new Answer("Слуга народа", false, incorrectReaction())));
 
         registry.put(5, Arrays.asList(
-                new Answer("Хома", true, new Reaction(STICKER_MOOSE, "Верно!"))));
+                new Answer("Хома", true, new Reaction(CORGI_LICKING, "Верно!"))));
     }
 
 

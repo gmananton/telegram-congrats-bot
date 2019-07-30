@@ -24,12 +24,15 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 
-import static com.gman.telegram.data.BotTextTemplate.*;
-import static com.gman.telegram.data.Gifs.*;
-import static com.gman.telegram.data.Pictures.PICTURE_STUB;
-import static com.gman.telegram.data.Pictures.PUSHEEN_CAKE;
-import static com.gman.telegram.data.Stickers.STICKER_CAT_UNICORN;
-import static com.gman.telegram.data.UserTextTemplate.*;
+import static com.gman.telegram.data.BotTextTemplate.HAPPY_BIRTHDAY;
+import static com.gman.telegram.data.BotTextTemplate.HELLO_MSG;
+import static com.gman.telegram.data.BotTextTemplate.UNKNOWN_MSG;
+import static com.gman.telegram.data.Pictures.ROBO;
+import static com.gman.telegram.data.Stickers.CORGI_FLOWERS;
+import static com.gman.telegram.data.UserTextTemplate.COMMAND_START;
+import static com.gman.telegram.data.UserTextTemplate.CONTINUE_MSG;
+import static com.gman.telegram.data.UserTextTemplate.START_QUEST_MSG;
+import static com.gman.telegram.data.UserTextTemplate.TRY_AGAIN_MSG;
 
 /**
  * Created by Anton Mikhaylov on 09.02.2018.
@@ -65,7 +68,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     @PostConstruct
     public void startMessaging() throws Exception {
         log.info("Bot {} initialized. Token: {}", BOT_NAME, TOKEN);
-//        sendPhoto(getStartMessage());
+        sendPhoto(getStartMessage());
     }
 
     @Override
@@ -135,6 +138,8 @@ public class CongratsBot extends TelegramLongPollingBot {
         String text = question.getText();
 
         switch (type) {
+            case TEXT_WITH_VARIANTS:
+                execute(textMessage(text, keyboardBuilder.keyboard(question)));
             case GIF:
                 sendDocument(gifMessage(media, text, keyboardBuilder.keyboard(question)));
                 break;
@@ -150,12 +155,10 @@ public class CongratsBot extends TelegramLongPollingBot {
     }
 
     public void sendFinalMessage() throws TelegramApiException {
-        sendDocument(gifMessage(GIF_SAMOYED, null, null));
-        sendDocument(gifMessage(GIF_SHEEP, null, null));
-        sendDocument(gifMessage(GIF_CORGI, null, null));
-        sendSticker(stickerMessage(STICKER_CAT_UNICORN));
+
+        sendSticker(stickerMessage(CORGI_FLOWERS));
         execute(textMessage(HAPPY_BIRTHDAY, null));
-        sendDocument(gifMessage(GIF_GIRL_CAKE, null, null));
+//        sendDocument(gifMessage(GIF_GIRL_CAKE, null, null));
     }
 
     private void reactToAnswer(String text) throws TelegramApiException {
@@ -193,8 +196,8 @@ public class CongratsBot extends TelegramLongPollingBot {
     private SendPhoto photoMessage(String pictureID, String text, ReplyKeyboardMarkup keyboard) {
         SendPhoto msg = new SendPhoto();
         msg.setChatId(CHAT_ID);
-//        msg.setPhoto(pictureID);
-        msg.setPhoto(PICTURE_STUB); //TODO это временно
+        msg.setPhoto(pictureID);
+//        msg.setPhoto(PICTURE_STUB); //TODO это временно
         msg.setCaption(text);
         msg.setReplyMarkup(keyboard);
         return msg;
@@ -217,7 +220,7 @@ public class CongratsBot extends TelegramLongPollingBot {
     }
 
     private SendPhoto getStartMessage() {
-        return photoMessage(PUSHEEN_CAKE, HELLO_MSG, keyboardBuilder.startKB());
+        return photoMessage(ROBO, HELLO_MSG, keyboardBuilder.startKB());
     }
 
     @Override
