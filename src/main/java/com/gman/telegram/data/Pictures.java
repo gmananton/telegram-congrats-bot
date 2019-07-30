@@ -14,5 +14,7 @@ public class Pictures {
     public static final String CORGI_JUMPING = "CgADAgADxwADv-IAAUgLdR0gW6L9KgI";
 
 
+    public static final String JACK_DANIELS = "AgADAgADFasxG9QaCUrXiVG5yfS8g27Itw8ABAEAAwIAA20AA6GxAQABFgQ";
 
+    public static final String PICTURE_STUB = "AgADAgADp6sxGxB4CEqI-mYKHN57fiTRuQ8ABAEAAwIAA20AAzxQAAIWBA";
 }

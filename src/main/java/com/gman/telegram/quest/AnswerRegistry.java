@@ -5,11 +5,7 @@ import com.gman.telegram.model.Reaction;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.gman.telegram.data.BotTextTemplate.TRY_AGAIN;
 import static com.gman.telegram.data.Emojis.CAT_KISSING;
@@ -41,13 +37,13 @@ public class AnswerRegistry {
     public void init() {
 
         registry.put(1, Arrays.asList(
-                new Answer("Корги", false, incorrectReaction()),
-                new Answer("Боченя", true, new Reaction(STICKER_HUGS, "Бочеееня!") ),
-                new Answer("Пиченя", false, incorrectReaction()),
-                new Answer("Тирства", false, incorrectReaction())));
+                new Answer("Чук и Гек", false, incorrectReaction()),
+                new Answer("Том и Ям", false, incorrectReaction()),
+                new Answer("Котя и Кротя", false, incorrectReaction()),
+                new Answer("Джек и Денилс", true, new Reaction(STICKER_HUGS, "Дооо!!"))));
 
         registry.put(2, Arrays.asList(
-                new Answer("12345", true, new Reaction(STICKER_CAT_SHERLOCK, "Да ты прям Шерлок!"))));
+                new Answer("31", true, new Reaction(STICKER_CAT_SHERLOCK, "Да ты прям Шерлок!"))));
 
         registry.put(3, Arrays.asList(
                 new Answer("Эверест", true, new Reaction(STICKER_CAT_BOOK, "Он самый!")),

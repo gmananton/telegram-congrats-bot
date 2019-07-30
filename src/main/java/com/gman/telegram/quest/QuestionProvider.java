@@ -9,17 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.gman.telegram.data.Gifs.GIF_ENGINE;
-import static com.gman.telegram.model.Question.Type.GIF;
-import static com.gman.telegram.model.Question.Type.PHOTO;
-import static com.gman.telegram.model.Question.Type.TEXT;
+import static com.gman.telegram.model.Question.Type.*;
 
 /**
  * Created by Anton Mikhaylov on 10.02.2018.
@@ -86,8 +80,8 @@ public class QuestionProvider {
         return Question.builder()
                 .id(1)
                 .type(PHOTO)
-                .text("Что тут изображено?")
-                .pictureId(Pictures.CORGI)
+                .text("Кто изображен на картинке?")
+                .pictureId(Pictures.JACK_DANIELS)
                 .answers(answerRegistry.get(1))
                 .build();
     }
@@ -96,10 +90,9 @@ public class QuestionProvider {
         return Question.builder()
                 .id(2)
                 .type(TEXT)
-                .text("Вот первая загадка:\n" +
-                        "<i>Она</i> защищает тебя от солнца и ветра во время катания.\n" +
-                        "Попробуй найти <i>её</i> и внутри ты обнаружишь первую подсказку с кодом, " +
-                        "который надо будет ввести в поле ответа.")
+                .text("Вот и первая загадка:\n" +
+                        "<i>Он</i> помогает тебе узнать какой день недели или дату.\n" +
+                        "Попробуй найти на <i>нем</i> перевернутое значение, которое надо будет внести в поле ответа.")
                 .answers(answerRegistry.get(2))
                 .build();
     }
