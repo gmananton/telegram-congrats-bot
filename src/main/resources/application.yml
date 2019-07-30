@@ -1,6 +1,11 @@
 bot:
-  token: 545612724:AAFTFwoqKfKPcGisopLjWRFe8AuXludNDVk
-  username: anuta_birthday_bot
+# Мой:
+#  token: 545612724:AAFTFwoqKfKPcGisopLjWRFe8AuXludNDVk
+#  username: anuta_birthday_bot
+
+# Пашковский:
+  token: 822268390:AAFFLaWQsEET58pkUScTAbi4Td4haEC8gK8
+  username: alex_birthday_bot
 
 chat:
   id:
